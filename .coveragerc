@@ -5,6 +5,7 @@ source = flask_via
 [report]
 omit =
     tests/*
+    flask_via/examples/*
 
 exclude_lines =
     # Have to re-enable the standard pragma
