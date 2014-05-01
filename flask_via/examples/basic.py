@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 
 def foo(bar=None):
-    return 'Foo View!'
+    return 'Basic Foo View!'
 
 
 routes = [
