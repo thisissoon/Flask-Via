@@ -35,7 +35,7 @@ class TestVia(unittest.TestCase):
         with self.assertRaises(ImportError) as e:
             via.init_app(self.app)
 
-        self.assertEqual(e.exception.message, 'No module named foo.bar')
+        self.assertEqual(str(e.exception), 'No module named foo.bar')
 
     @mock.patch('flask_via.import_module')
     def test_init_app_raises_attribute_error(self, import_module):
@@ -51,7 +51,7 @@ class TestVia(unittest.TestCase):
             via.init_app(self.app, route_module='foo.bar')
 
         self.assertEqual(
-            e.exception.message,
+            str(e.exception),
             "'Module' object has no attribute 'routes'")
 
     @mock.patch('flask_via.import_module')

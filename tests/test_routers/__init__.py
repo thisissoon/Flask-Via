@@ -22,4 +22,4 @@ class TestBaseRouter(unittest.TestCase):
         with self.assertRaises(NotImplementedError) as e:
             FooRouter()
 
-        self.assertTrue(e.exception.message, '__init__ must be overridden')
+        self.assertTrue(str(e.exception), '__init__ must be overridden')
