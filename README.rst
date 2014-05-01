@@ -5,7 +5,7 @@ Inspired by Django's URL configuration ``Flask-Via`` is designed to add similar
 functionality for Flask applications that are goriwng beyind that simple single
 file application.
 
-|PyPi_version| |PyPi_downloads| |travis_master| |coveralls_master|
+|travis_master| |coveralls_master| |PyPi_version| |PyPi_downloads|
 
 Example
 -------
@@ -31,14 +31,18 @@ Example
 
     app.run()
 
-.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.png
+.. |PyPi_version| image:: https://badge.fury.io/py/Flask-Via.svg
+    :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Latest PyPI version
 
 .. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.png
+    :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
 
 .. |coveralls_master| image:: https://coveralls.io/repos/SOON-Dorks/Flask-Via/badge.png?branch=master
+    :target: https://coveralls.io/r/thisissoon/Flask-Via
     :alt: Test Coverage
 
 .. |travis_master| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
+    :target: https://travis-ci.org/thisissoon/Flask-Via
     :alt: Travis build status on Master Branch
