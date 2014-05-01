@@ -10,7 +10,7 @@ Unit tests for flask_via.Via class.
 import mock
 import unittest
 
-from flask_via import Via
+from flask_via.via import Via
 
 
 class TestVia(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestVia(unittest.TestCase):
         self.app = mock.MagicMock()
         self.app.config = {}
 
-    @mock.patch('flask_via.import_module')
+    @mock.patch('flask_via.via.import_module')
     def test_init_app_args(self, import_module):
         """ init_app passes app and kwargs to load_routers """
 
@@ -68,7 +68,7 @@ class TestVia(unittest.TestCase):
 
         self.assertNotIsInstance(Via, kls)
 
-    @mock.patch('flask_via.import_module')
+    @mock.patch('flask_via.via.import_module')
     def test_load_routers(self, import_module):
         """ load_routers instantiates router classes """
 
