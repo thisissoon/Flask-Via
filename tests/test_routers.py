@@ -46,8 +46,7 @@ class TestBaseRouter(unittest.TestCase):
         self.app.config = {'VIA_ROOT': 'foo.bar'}
 
         instance = BaseRouter(self.app)
-        mocked_module = mock.MagicMock()
-        import_module.side_effect = mocked_module
+        import_module.side_effect = mock.MagicMock()
 
         instance.root_module()
 

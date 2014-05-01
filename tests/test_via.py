@@ -58,15 +58,21 @@ class TestVia(unittest.TestCase):
             e.exception.message,
             'No class named Foo in module flask_via')
 
-    def test_uninstantiated_class_returned(self):
+    @mock.patch('flask_via.via.import_module')
+    def test_uninstantiated_class_returned(self, import_module):
         """ router_class_from_path returns uninstantiated class """
 
+        class BarRouter(object):
+            pass
+
+        import_module.side_effect = mock.MagicMock(BarRouter=BarRouter)
+
         via = Via()
-        path = 'flask_via.Via'
+        path = 'foo.BarRouter'
 
         kls = via.router_class_from_path(path)
 
-        self.assertNotIsInstance(Via, kls)
+        self.assertNotIsInstance(kls, BarRouter)
 
     @mock.patch('flask_via.via.import_module')
     def test_load_routers(self, import_module):
