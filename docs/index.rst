@@ -1,5 +1,4 @@
-``Flask-Via`` Documentation
-===========================
+.. include:: ../README.rst
 
 Usage Documentation
 -------------------

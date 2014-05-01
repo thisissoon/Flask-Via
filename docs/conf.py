@@ -15,6 +15,7 @@ root = os.path.abspath(
 sys.path.append(os.path.join(root, 'doit'))
 now = datetime.datetime.utcnow()
 year = now.year
+version = open(os.path.join(root, 'VERSION')).read().splitlines()[0]
 
 import flask_via  # noqa
 
@@ -22,8 +23,8 @@ import flask_via  # noqa
 # Project details
 project = u'Flask-Via'
 copyright = u'{0}, Soon London Ltd'.format(year)
-version = flask_via.__version__
-release = flask_via.__version__
+version = version
+release = version
 
 # Sphinx Config
 templates_path = ['_templates']

@@ -15,11 +15,7 @@ import sys
 
 from setuptools import setup, find_packages
 
-root = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-sys.path.append(os.path.join(root, 'flask_via'))
 extras_require = {}
-
-import flask_via
 
 
 def read_requirements(filename):
@@ -73,9 +69,9 @@ extras_require['develop'] = read_requirements(DEV_REQUIREMENTS_FILE) + \
 # Setup function
 setup(
     name='Flask-Via',
-    version=flask_via.__version__,
-    author=flask_via.__author__,
-    author_email=flask_via.__author_email__,
+    version=open('VERSION').read().strip(),
+    author='SOON_',
+    author_email='dorks@thisissoon.com',
     url='https://github.com/thisissoon/Flask-Via',
     description='Flask-Via adds Django style url routing configuration.',
     long_description=open('README.rst').read(),
