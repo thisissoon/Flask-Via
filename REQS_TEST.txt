@@ -1,0 +1,9 @@
+#
+# Test Requirements
+#
+
+nose
+coverage
+nosexcover
+pinocchio
+mock

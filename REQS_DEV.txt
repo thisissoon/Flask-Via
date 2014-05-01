@@ -1,0 +1,11 @@
+#
+# Dev Requirements
+#
+
+# Documentation Generation
+Sphinx==1.2.2
+sphinxcontrib-napoleon==0.2.6
+
+# Debugging
+pdbpp
+ipython
