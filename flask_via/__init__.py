@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-flask_via.via
-=============
+flask_via
+=========
 """
 
 __version__ = '0.1.0-dev'  # pragma: no cover
