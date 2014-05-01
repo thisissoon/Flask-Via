@@ -116,5 +116,5 @@ class Via(object):
 
             # Instantiate the router class, passing the application instance
             # and key word arguments
-            router = Kls()
-            router.register(app, **kwargs)
+            router = Kls(app, **kwargs)
+            router.register()

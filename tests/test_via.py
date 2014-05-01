@@ -20,22 +20,19 @@ class TestVia(unittest.TestCase):
         self.app = mock.MagicMock()
         self.app.config = {}
 
-    def tearDown(self):
-        del self.app
-
-    @mock.patch('flask_via.routers.FlaskRouter', create=True)
-    def test_init_app(self, FlaskRouter):
+    @mock.patch('flask_via.import_module')
+    def test_init_app_args(self, import_module):
         """ init_app passes app and kwargs to load_routers """
 
-        instance = mock.MagicMock()
-        FlaskRouter.return_value = instance
+        FlaskRouter = mock.MagicMock()
+        import_module.side_effect = [
+            mock.MagicMock(FlaskRouter=FlaskRouter)
+        ]
 
         via = Via()
-
         via.init_app(self.app, foo='bar')
 
-        self.assertTrue(FlaskRouter.called)
-        instance.register.assert_called_with(self.app, foo='bar')
+        FlaskRouter.assert_called_with(self.app, foo='bar')
 
     def test_raises_import_error(self):
         """ router_class_from_path raises import error """
@@ -71,13 +68,16 @@ class TestVia(unittest.TestCase):
 
         self.assertNotIsInstance(Via, kls)
 
-    @mock.patch('flask_via.routers.FooRouter', create=True)
-    @mock.patch('flask_via.routers.BarRouter', create=True)
-    def test_load_routers(
-            self,
-            FooRouter,
-            BarRouter):
+    @mock.patch('flask_via.import_module')
+    def test_load_routers(self, import_module):
         """ load_routers instantiates router classes """
+
+        FooRouter = mock.MagicMock()
+        BarRouter = mock.MagicMock()
+
+        import_module.side_effect = [
+            mock.MagicMock(FooRouter=FooRouter),
+            mock.MagicMock(BarRouter=BarRouter)]
 
         self.app.config = {'VIA_ROUTERS': ['flask_via.routers.BarRouter']}
 
