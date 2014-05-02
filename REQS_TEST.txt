@@ -4,6 +4,5 @@
 
 nose
 coverage
-nosexcover
 pinocchio
 mock
