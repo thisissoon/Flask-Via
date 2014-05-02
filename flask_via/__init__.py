@@ -8,7 +8,46 @@ flask_via
 from importlib import import_module
 
 
-class Via(object):
+class RoutesImporter(object):
+    """ Handles the import of routes module and obtaining a list of routes
+    from that module as well as loading each route onto the application
+    """
+
+    def include(self, routes_module, routes_name):
+        """ Imports a routes module and gets the routes from within that
+        module and returns them.
+
+        Arguments
+        ---------
+        routes_module : str
+            Python dotted path to routes module
+        routes_name : str
+            Module attribute name to use when attempted to get the routes
+
+        Returns
+        -------
+        list
+            List of routes in the module
+        """
+
+        # Import the moduke
+        module = import_module(routes_module)
+
+        # Get the routes from the module
+        routes = getattr(module, routes_name)
+
+        return routes
+
+    def load(self, app, routes, **kwargs):
+        """ Loads passed routes onto the application by calling each routes
+        ``add_to_app`` method which must be implemented by the route class.
+        """
+
+        for route in routes:
+            route.add_to_app(app, **kwargs)
+
+
+class Via(RoutesImporter):
     """ The core class which kicks off the whole registration processes.
 
     Example
@@ -40,7 +79,7 @@ class Via(object):
             self,
             app,
             routes_module=None,
-            routes_variable='routes',
+            routes_name='routes',
             **kwargs):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
@@ -55,7 +94,7 @@ class Via(object):
         route_module : str, optional
             Python dotted path to where routes are defined, defaults
             to ``None``
-        routes_variable : str, optional
+        routes_name : str, optional
             Within the routes module look for a variable of this name,
             defaults to ``routes``
         \*\*kwargs
@@ -80,12 +119,8 @@ class Via(object):
                 'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
 
-        # Import the moduke
-        module = import_module(routes_module)
+        # Get the routes
+        routes = self.include(routes_module, routes_name)
 
-        # Get the routes from the module
-        routes = getattr(module, routes_variable)
-
-        # Process Routes
-        for route in routes:
-            route.add_to_app(app, **kwargs)
+        # Load the routes
+        self.load(app, routes, **kwargs)
