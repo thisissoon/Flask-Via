@@ -25,17 +25,15 @@ class TestVia(unittest.TestCase):
             via.init_app(self.app)
 
         self.assertEqual(
-            e.exception.message,
+            str(e.exception),
             'VIA_ROUTE_MODULE is not defined in application configuration.')
 
     def test_init_app_raises_import_error(self):
         via = Via()
         self.app.config['VIA_ROUTE_MODULE'] = 'foo.bar'
 
-        with self.assertRaises(ImportError) as e:
+        with self.assertRaises(ImportError):
             via.init_app(self.app)
-
-        self.assertEqual(str(e.exception), 'No module named foo.bar')
 
     @mock.patch('flask_via.import_module')
     def test_init_app_raises_attribute_error(self, import_module):
