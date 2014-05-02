@@ -29,4 +29,4 @@ via = Via()
 via.init_app(app, route_module='flask_via.examples.pluggable')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)

@@ -39,7 +39,12 @@ class Via(object):
         app.run()
     """
 
-    def init_app(self, app, routes_module=None, routes_variable='routes'):
+    def init_app(
+            self,
+            app,
+            routes_module=None,
+            routes_variable='routes',
+            **kwargs):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
 
@@ -56,6 +61,8 @@ class Via(object):
         routes_variable : str, optional
             Within the routes module look for a variable of this name,
             defaults to ``routes``
+        \*\*kwargs
+            Arbitrary keyword arguments passed to ``add_url_rule``
 
         Raises
         ------
@@ -84,4 +91,4 @@ class Via(object):
 
         # Process Routes
         for route in routes:
-            route.add_to_app(app)
+            route.add_to_app(app, **kwargs)

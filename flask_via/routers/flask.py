@@ -64,13 +64,15 @@ class Basic(BaseRouter):
         self.func = func
         self.endpoint = endpoint
 
-    def add_to_app(self, app):
+    def add_to_app(self, app, **kwargs):
         """ Adds the url route to the flask application object.mro
 
         Arguments
         ---------
         app : flask.app.Flask
             Flask application instance
+        \*\*kwargs
+            Arbitrary keyword arguments passed in to ``init_app``
         """
 
         app.add_url_rule(self.url, self.endpoint, self.func)
@@ -115,13 +117,15 @@ class Pluggable(BaseRouter):
         self.url = url
         self.kwargs = kwargs
 
-    def add_to_app(self, app):
-        """ Adds the url route to the flask application object.mro
+    def add_to_app(self, app, **kwargs):
+        """ Adds the url route to the flask application object.
 
         Arguments
         ---------
         app : flask.app.Flask
             Flask application instance
+        \*\*kwargs
+            Arbitrary keyword arguments passed in to ``init_app``
         """
 
         app.add_url_rule(self.url, **self.kwargs)
