@@ -3,11 +3,16 @@
 Usage Documentation
 -------------------
 
+.. toctree::
+   :maxdepth: 2
+
+   quickstart
+
 Reference
 ---------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    api
    changelog

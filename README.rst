@@ -32,6 +32,33 @@ Example
     if __name__ == "__main__":
         app.run(debug=True)
 
+Why?
+----
+
+Growing your application can be quite hard and not always clear where and how
+your routes are discovered. It can lead to a cluttered application factory
+method where you define all your routes at application creation and this is
+hard to maintain and not to mention messy.
+
+A better way would be to define your routes on a ``routes.py`` and
+automatically load them at application start up, this is what ``Flask-Via``
+helps to do.
+
+Third party Flask extensions don't always follow the same conventions for
+adding routes to an application so ``Flask-Via`` has been designed to be easy
+for developers to write their own custom routers, for example take a look at
+the bundled ``Flask-Restful`` resource router:
+:py:class:`flask_via.routers.restful.Resource`.
+
+If you do write a custom router that is useful to you it is probably be useful
+to someone else so please do contribute back :)
+
+Links
+-----
+
+* Documentation: http://flask-via.thisissoon.com
+* CI: https://travis-ci.org/thisissoon/Flask-Via
+* Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
 .. |PyPi_version| image:: https://badge.fury.io/py/Flask-Via.svg
     :target: https://pypi.python.org/pypi/Flask-Via
