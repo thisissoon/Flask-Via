@@ -39,4 +39,4 @@ class TestRestfulRouter(unittest.TestCase):
         resource = restful.Resource('/', Resource)
         resource.add_to_app(self.app, restful_api=api)
 
-        api.add_resource.assert_called_once_with(Resource, '/')
+        api.add_resource.assert_called_once_with(Resource, '/', endpoint=None)

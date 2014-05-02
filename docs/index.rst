@@ -7,6 +7,8 @@ Usage Documentation
    :maxdepth: 2
 
    quickstart
+   route_discovery
+   routers
 
 Reference
 ---------

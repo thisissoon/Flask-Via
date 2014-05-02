@@ -19,12 +19,13 @@ api = restful.Api(app)
 
 class FooResource(restful.Resource):
 
-    def get(self):
+    def get(self, bar=None):
         return {'hello': 'world'}
 
 
 routes = [
-    Resource('/foo', FooResource)
+    Resource('/', FooResource),
+    Resource('/<bar>', FooResource, endpoint='foobar')
 ]
 
 via = Via()

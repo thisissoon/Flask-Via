@@ -44,7 +44,7 @@ class Resource(BaseRouter):
 
     """
 
-    def __init__(self, url, resource):
+    def __init__(self, url, resource, endpoint=None):
         """ Constructor for flask restful resource router.
 
         Arguments
@@ -53,10 +53,16 @@ class Resource(BaseRouter):
             The url to use for the route
         resource
             A flask ``restful.Resource`` resource class
+
+        Keyword Arguments
+        -----------------
+        endpoint : str, optional
+            Optional, override ``Flask-Restful`` automatic endpoint naming
         """
 
         self.url = url
         self.resource = resource
+        self.endpoint = endpoint
 
     def add_to_app(self, app, restful_api=None):
         """ Adds the restul api resource route to the application.
@@ -80,4 +86,7 @@ class Resource(BaseRouter):
         if not restful_api:
             raise NotImplementedError('restful_api not passed to add_to_app')
 
-        restful_api.add_resource(self.resource, self.url)
+        restful_api.add_resource(
+            self.resource,
+            self.url,
+            endpoint=self.endpoint)
