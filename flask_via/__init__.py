@@ -2,7 +2,7 @@
 
 """
 flask_via
-=========
+---------
 """
 
 from importlib import import_module
@@ -11,32 +11,29 @@ from importlib import import_module
 class Via(object):
     """ The core class which kicks off the whole registration processes.
 
-    Attributes
-    ----------
-    routers : list
-        A list of python dotted string paths to a single router class. This
-        is the default list of routers applied, these are:
-
-        * :py:class:`.routers.FlaskRouter`
-
-        Override this before you init_app to change the default routers
-        applied, an empty list is acceptable to avoid any default routers
-        being run.
-
     Example
-    ------
+    -------
     .. sourcecode:: python
 
         from flask import Flask
         from flask.ext.via import Via
+        from flask.ext.via.routers.flask import Basic
 
         app = Flask(__name__)
+
+        def foo(bar=None):
+            return 'Foo View!'
+
+        routes = [
+            Basic('/foo', foo),
+            Basic('/foo/<bar>', foo, endpoint='foo2'),
+        ]
+
         via = Via()
+        via.init_app(app, routes_module='path.to.here')
 
-        via.routers = []  # No default routers run
-        via.init_app(app)
-
-        app.run()
+        if __name__ == "__main__":
+            app.run(debug=True)
     """
 
     def init_app(
@@ -71,8 +68,8 @@ class Via(object):
         AttributeError
             If routes do not exist in the moduke
         NotImplementedError
-            If VIA_ROUTE_MODULE is not configured in appluication config and
-            ``route_module`` keyword argument has not been provided.
+            If ``VIA_ROUTE_MODULE`` is not configured in appluication config
+            and ``route_module`` keyword argument has not been provided.
         """
 
         if not routes_module:

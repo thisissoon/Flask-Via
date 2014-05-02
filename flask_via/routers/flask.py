@@ -2,20 +2,22 @@
 
 """
 flask_via.routers.flask
-=======================
+-----------------------
 
 A set of flask specific router classes to be used when defining routes.
 
 Example
 -------
 
-from flask.ext.via.routes.flask import Basic, Pluggable
-from yourapp.views import BarView, foo_view
+.. sourcecode:: python
 
-routes = [
-    Basic('/foo', 'foo', foo_view),
-    Pluggable('/bar', view_func=BarView.as_view('bar')),
-]
+    from flask.ext.via.routes.flask import Basic, Pluggable
+    from yourapp.views import BarView, foo_view
+
+    routes = [
+        Basic('/foo', 'foo', foo_view),
+        Pluggable('/bar', view_func=BarView.as_view('bar')),
+    ]
 
 """
 
@@ -30,7 +32,6 @@ class Basic(BaseRouter):
     Example
     -------
     .. sourcecode:: python
-
 
         from flask.ext.via.routes import flask
         from yourapp.views import foo_view, bar_view

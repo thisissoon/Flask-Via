@@ -16,13 +16,10 @@ Example
     from flask.ext.via import Via
     from flask.ext.via.routers.flask import Basic
 
-
     app = Flask(__name__)
-
 
     def foo(bar=None):
         return 'Foo View!'
-
 
     routes = [
         Basic('/foo', foo),
@@ -33,7 +30,7 @@ Example
     via.init_app(app, route_module='flask_via.examples.basic')
 
     if __name__ == "__main__":
-        app.run(host='0.0.0.0', port=5000, debug=True)
+        app.run(debug=True)
 
 
 .. |PyPi_version| image:: https://badge.fury.io/py/Flask-Via.svg
@@ -44,8 +41,8 @@ Example
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
 
-.. |coveralls_master| image:: https://coveralls.io/repos/SOON-Dorks/Flask-Via/badge.png?branch=master
-    :target: https://coveralls.io/r/thisissoon/Flask-Via
+.. |coveralls_master| image:: https://coveralls.io/repos/thisissoon/Flask-Via/badge.png?branch=master
+    :target: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
     :alt: Test Coverage
 
 .. |travis_master| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
