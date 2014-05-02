@@ -9,6 +9,7 @@ Usage Documentation
    quickstart
    route_discovery
    routers
+   include
    examples
 
 Reference

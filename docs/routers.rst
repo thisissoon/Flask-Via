@@ -24,8 +24,8 @@ based view routing.
     * ``endpoint``: (Optional) A custom endpoint name, by default flask uses
       the view function name.
 
-Usage
-^^^^^
+Example
+^^^^^^^
 
 .. sourcecode:: python
 
@@ -51,8 +51,8 @@ using Flasks pluggable views.
 **Keyword Arguments**:
     * ``view_func``: View function
 
-Usage
-^^^^^
+Example
+^^^^^^^
 
 .. sourcecode:: python
 
@@ -117,8 +117,8 @@ The :py:class:`flask_via.routers.restful.Resource` router allows us to register
 **Keyword Arguments**:
     * ``endpoint``: (Optional) A custom endpoint name
 
-Usage
-^^^^^
+Example
+^^^^^^^
 
 .. sourcecode:: python
 
