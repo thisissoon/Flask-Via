@@ -39,7 +39,7 @@ class Via(object):
         app.run()
     """
 
-    def init_app(self, app, route_module=None, routes_variable='routes'):
+    def init_app(self, app, routes_module=None, routes_variable='routes'):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
 
@@ -50,10 +50,10 @@ class Via(object):
 
         Keyword Arguments
         -----------------
-        route_module : str
+        route_module : str, optional
             Python dotted path to where routes are defined, defaults
             to ``None``
-        routes_variable : str
+        routes_variable : str, optional
             Within the routes module look for a variable of this name,
             defaults to ``routes``
 
@@ -68,16 +68,16 @@ class Via(object):
             ``route_module`` keyword argument has not been provided.
         """
 
-        if not route_module:
-            route_module = app.config.get('VIA_ROUTE_MODULE')
+        if not routes_module:
+            routes_module = app.config.get('VIA_ROUTES_MODULE')
 
-        if not route_module:
+        if not routes_module:
             raise NotImplementedError(
-                'VIA_ROUTE_MODULE is not defined in application '
+                'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
 
         # Import the moduke
-        module = import_module(route_module)
+        module = import_module(routes_module)
 
         # Get the routes from the module
         routes = getattr(module, routes_variable)

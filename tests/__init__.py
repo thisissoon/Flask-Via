@@ -26,11 +26,11 @@ class TestVia(unittest.TestCase):
 
         self.assertEqual(
             str(e.exception),
-            'VIA_ROUTE_MODULE is not defined in application configuration.')
+            'VIA_ROUTES_MODULE is not defined in application configuration.')
 
     def test_init_app_raises_import_error(self):
         via = Via()
-        self.app.config['VIA_ROUTE_MODULE'] = 'foo.bar'
+        self.app.config['VIA_ROUTES_MODULE'] = 'foo.bar'
 
         with self.assertRaises(ImportError):
             via.init_app(self.app)
@@ -46,7 +46,7 @@ class TestVia(unittest.TestCase):
         via = Via()
 
         with self.assertRaises(AttributeError) as e:
-            via.init_app(self.app, route_module='foo.bar')
+            via.init_app(self.app, routes_module='foo.bar')
 
         self.assertEqual(
             str(e.exception),
@@ -61,7 +61,7 @@ class TestVia(unittest.TestCase):
         import_module.return_value = mock.MagicMock(routes=routes)
 
         via = Via()
-        via.init_app(self.app, route_module='foo.bar')
+        via.init_app(self.app, routes_module='foo.bar')
 
         for instance in routes:
             instance.add_to_app.assert_called_once_with(self.app)
