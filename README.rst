@@ -47,7 +47,7 @@ helps to do.
 Third party Flask extensions don't always follow the same conventions for
 adding routes to an application so ``Flask-Via`` has been designed to be easy
 for developers to write their own custom routers, for example take a look at
-the bundled ``Flask-Restful`` resource router: http://flask-via.thisissoon.com/en/latest/api.html#flask_via.routers.restful.Resource
+the bundled ``Flask-Restful`` Resource_ router.
 
 If you do write a custom router that is useful to you it is probably be useful
 to someone else so please do contribute back :)
@@ -74,3 +74,5 @@ Links
 .. |travis_master| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
     :target: https://travis-ci.org/thisissoon/Flask-Via
     :alt: Travis build status on Master Branch
+
+.. _Resource: http://flask-via.thisissoon.com/en/latest/api.html#flask_via.routers.restful.Resource
