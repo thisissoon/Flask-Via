@@ -9,3 +9,4 @@ on GitHub.
 * `Mixed Routers Example Example <https://github.com/thisissoon/Flask-Via/blob/master/flask_via/examples/mixed.py>`_
 * `Basic Restful Example <https://github.com/thisissoon/Flask-Via/blob/master/flask_via/examples/restful.py>`_
 * `Small Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/small>`_
+* `Blueprint Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/blueprints>`_

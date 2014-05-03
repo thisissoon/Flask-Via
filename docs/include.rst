@@ -42,11 +42,11 @@ In the top level ``routes.py`` we would have::
 
 In the ``foo.routes`` we would have::
 
-    from flask.ext.via.routes import flask
+    from flask.ext.via.routes import default
     from foo.bar.views import some_view
 
     routes = [
-        flask.Basic('/bar', some_view)
+        default.Basic('/bar', some_view)
     ]
 
 You can see this in action with the
