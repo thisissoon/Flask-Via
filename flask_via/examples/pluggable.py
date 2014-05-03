@@ -10,7 +10,7 @@ A simple ``Flask-Via`` example Flask application.
 from flask import Flask
 from flask.views import MethodView
 from flask.ext.via import Via
-from flask.ext.via.routers.flask import Pluggable
+from flask.ext.via.routers.default import Pluggable
 
 
 class FooView(MethodView):
