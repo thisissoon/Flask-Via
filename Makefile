@@ -29,6 +29,9 @@ docs:
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
 
+develop:
+	bash -c 'pip install -e .[develop]'
+
 test:
 	python setup.py nosetests
 
