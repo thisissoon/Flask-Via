@@ -145,21 +145,15 @@ class Blueprint(BaseRouter, RoutesImporter):
         from flask.ext.via.routers import default
 
         routes = [
-            default.blueprint(
-                'flask_via.examples.blueprints.foo.routes',
-                'foo',
-                'flask_via.examples.blueprints.foo',
-                url_prefix='/foo',
-                template_folder='templates'
-            )
+            default.blueprint('foo', 'flask_via.examples.blueprints.foo')
         ]
     """
 
     def __init__(
             self,
-            routes_module,
             name,
-            import_name,
+            module,
+            routes_module_name='routes',
             routes_name='routes',
             static_folder=None,
             static_url_path=None,
@@ -171,15 +165,16 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         Arguments
         ---------
-        routes_module : str
-            Python dotted path to the routes module
         name : str
             Blueprint name
-        import_name : str
-            Python module path to blueprint
+        module : str
+            Python dotted path to the blueprint module, not the routes module
 
         Keyword Arguments
         -----------------
+        routes_module_name : str, optional
+            The module ``Flask-Via`` will look for within the blueprint module
+            which contains the routes, defaults to ``routes``
         routes_name : str, optional
             Name of the variable holding the routes in the module, defaults to
             ``routes``
@@ -200,9 +195,9 @@ class Blueprint(BaseRouter, RoutesImporter):
             the values passed in place, defaults to ``None``.
         """
 
-        self.routes_module = routes_module
         self.name = name
-        self.import_name = import_name
+        self.module = module
+        self.routes_module_name = routes_module_name
         self.routes_name = routes_name
         self.static_folder = static_folder
         self.static_url_path = static_url_path
@@ -210,6 +205,19 @@ class Blueprint(BaseRouter, RoutesImporter):
         self.url_prefix = url_prefix
         self.subdomain = subdomain
         self.url_defaults = url_defaults
+
+    @property
+    def routes_module(self):
+        """ Generates the routes module path, this is built from
+        ``self.module`` and ``self.routes_module_name``.
+
+        Returns
+        -------
+        str
+            Python dotted path to the routes module containing routes.
+        """
+
+        return '{0.module}.{0.routes_module_name}'.format(self)
 
     def create_blueprint(self, app):
         """ Creates a flask blueprint instance.
@@ -222,7 +230,7 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         blueprint = FlaskBlueprint(
             self.name,
-            self.import_name,
+            self.module,
             static_folder=self.static_folder,
             static_url_path=self.static_url_path,
             template_folder=self.template_folder,
