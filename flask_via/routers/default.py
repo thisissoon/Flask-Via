@@ -219,13 +219,8 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         return '{0.module}.{0.routes_module_name}'.format(self)
 
-    def create_blueprint(self, app):
+    def create_blueprint(self):
         """ Creates a flask blueprint instance.
-
-        Arguments
-        ---------
-        app : flask.app.Flask
-            Flask application instance
         """
 
         blueprint = FlaskBlueprint(
@@ -254,7 +249,7 @@ class Blueprint(BaseRouter, RoutesImporter):
         """
 
         # Register blueproiint
-        blueprint = self.create_blueprint(app)
+        blueprint = self.create_blueprint()
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)
