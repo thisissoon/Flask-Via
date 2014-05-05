@@ -11,7 +11,7 @@ from flask import Flask
 from flask.views import MethodView
 from flask.ext import restful
 from flask.ext.via import Via
-from flask.ext.via.routers.flask import Basic, Pluggable
+from flask.ext.via.routers.default import Basic, Pluggable
 from flask.ext.via.routers.restful import Resource
 
 

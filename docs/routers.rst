@@ -13,7 +13,7 @@ based pluggable views.
 Basic Router
 ~~~~~~~~~~~~
 
-The :py:class:`flask_via.routers.flask.Basic` router handles basic functional
+The :py:class:`flask_via.routers.default.Basic` router handles basic functional
 based view routing.
 
 **Arguments**:
@@ -29,7 +29,7 @@ Example
 
 .. sourcecode:: python
 
-    from flask.ext.via.routers.flask import Basic
+    from flask.ext.via.routers.default import Basic
 
     def foo(bar=None):
         return 'foo'
@@ -42,7 +42,7 @@ Example
 Pluggable Router
 ~~~~~~~~~~~~~~~~
 
-The :py:class:`flask_via.routers.flask.Pluggable` router handles views created
+The :py:class:`flask_via.routers.default.Pluggable` router handles views created
 using Flasks pluggable views.
 
 **Arguments**:
@@ -57,7 +57,7 @@ Example
 .. sourcecode:: python
 
     from flask.views import MethodView
-    from flask.ext.via.routers.flask import Pluggable
+    from flask.ext.via.routers.default import Pluggable
 
     class FooView(MethodView):
 

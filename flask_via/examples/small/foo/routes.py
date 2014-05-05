@@ -8,8 +8,8 @@ A small ``Flask-Via`` example Flask application.
 """
 
 from flask_via.examples.small.foo import views
-from flask.ext.via.routers import flask
+from flask.ext.via.routers import default
 
 routes = [
-    flask.Basic('/foo', views.foo),
+    default.Basic('/foo', views.foo),
 ]

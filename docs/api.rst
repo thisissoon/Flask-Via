@@ -12,7 +12,7 @@ API
     :special-members: __init__
     :show-inheritance:
 
-.. automodule:: flask_via.routers.flask
+.. automodule:: flask_via.routers.default
     :members:
     :private-members:
     :special-members: __init__

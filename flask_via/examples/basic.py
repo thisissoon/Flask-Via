@@ -9,7 +9,7 @@ A simple ``Flask-Via`` example Flask application.
 
 from flask import Flask
 from flask.ext.via import Via
-from flask.ext.via.routers.flask import Basic
+from flask.ext.via.routers.default import Basic
 
 
 app = Flask(__name__)

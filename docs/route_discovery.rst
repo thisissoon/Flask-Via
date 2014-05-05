@@ -72,11 +72,11 @@ Within ``views.py`` we have::
 
 Within ``routes.py`` we have::
 
-    from flask.ext.via.routers import flask
+    from flask.ext.via.routers import default
 
     urls = [
-        flask.Basic('/', home),
-        flask.Basic('/about', about),
+        default.Basic('/', home),
+        default.Basic('/about', about),
     ]
 
 Within ``app.py`` we have::
