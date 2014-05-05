@@ -60,13 +60,14 @@ register blueprints on the application and routes on the blueprint, this is
 provided by the :py:class:`flask_via.routers.default.Blueprint` router.
 
 **Arguments**:
-    * ``routes_module``: Python dotted path to the route module as a string.
     * ``name`` : Blueprint name
-    * ``import_name``: Python module path to blueprint
+    * ``module``: Python module path to blueprint module
 
 **Keyword Arguments**:
+    * ``routes_module_name``: The module ``Flask-Via`` will look for within
+      the blueprint module which contains the routes, defaults to ``routes``
     * ``routes_name``: If you have not called the list of routes in
-      the moduke ``routes`` you can set that here, for example ``urls``.
+      the module ``routes`` you can set that here, for example ``urls``.
     * ``static_folder``: Path to static files for blueprint, defaults to ``None``
     * ``static_url_path``: URL path for blueprint static files,
       defaults to ``None``
@@ -81,4 +82,40 @@ provided by the :py:class:`flask_via.routers.default.Blueprint` router.
 Example
 ~~~~~~~
 
-xxx
+Let us assume we have the following application structure::
+
+    /path/to/foo
+        - bar/
+            - templates/
+                - foo.html
+            - __init__.py
+            - routes.py
+            - views.py
+        - __int__.py
+        - routes.py
+
+In the above structure ``bar`` is a Flask blueprint which we wish to add to our
+flask application, so our top level routes would look like this::
+
+    from flask.ext.via.routers.default import Blueprint
+
+    routes = [
+        Blueprint('bar', 'foo.bar', template_folder='templates')
+    ]
+
+You will note we give the blueprint a name and pass the top level module path
+to the blueprint rather than a path to the routes file.
+
+In our blueprints views we can define routes as normal::
+
+    from flask.ext.via.routes import default
+    from foo.bar.views import some_view
+
+    routes = [
+        default.Basic('/bar', some_view)
+    ]
+
+.. note::
+    All routes will be added to the blueprint rather than the flask
+    application, this applies to any routes included using the ``Include``
+    router.

@@ -40,3 +40,14 @@ class TestFlaskPluggableRouter(unittest.TestCase):
             '/',
             view_func=view,
             endpoint='foo')
+
+
+class TestBlueprintRouter(unittest.TestCase):
+
+    def setUp(self):
+        self.app = mock.MagicMock()
+
+    def test_routes_module_property(self):
+        router = default.Blueprint('foo', 'foo.bar')
+
+        self.assertEqual(router.routes_module, 'foo.bar.routes')
