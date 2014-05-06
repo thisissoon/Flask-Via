@@ -20,6 +20,7 @@ Reference
 
    api
    changelog
+   contributors
 
 Indices and tables
 ==================

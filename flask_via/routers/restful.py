@@ -70,7 +70,7 @@ class Resource(BaseRouter):
         Arguments
         ---------
         app : flask.app.Flask
-            Flask application instance
+            Flask application instance, this is ignored.
 
         Keyword Arguments
         -----------------
