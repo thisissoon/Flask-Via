@@ -18,17 +18,29 @@ from flask.ext.via.routers.restful import Resource
 class FooView(MethodView):
 
     def get(self, bar=None):
-        return 'Pluggable Foo View'
+        rtn = 'Pluggable Foo View'
+        if bar:
+            rtn += ' bar = {0}'.format(bar)
+
+        return rtn
 
 
 class FooResource(restful.Resource):
 
     def get(self, bar=None):
-        return {'resource': 'foo'}
+        rtn = {'resource': 'foo'}
+        if bar:
+            rtn['bar'] = bar
+
+        return rtn
 
 
 def foo(bar=None):
-    return 'Basic Foo View'
+    rtn = 'Basic Foo View'
+    if bar:
+        rtn += ' bar = {0}'.format(bar)
+
+    return rtn
 
 
 app = Flask(__name__)

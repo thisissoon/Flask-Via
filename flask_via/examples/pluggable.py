@@ -16,6 +16,8 @@ from flask.ext.via.routers.default import Pluggable
 class FooView(MethodView):
 
     def get(self, bar=None):
+        if bar:
+            return 'Pluggable - Foo View with Bar = {0}'.format(bar)
         return 'Pluggable - Foo View'
 
 app = Flask(__name__)
@@ -26,7 +28,7 @@ routes = [
 ]
 
 via = Via()
-via.init_app(app, route_module='flask_via.examples.pluggable')
+via.init_app(app, routes_module='flask_via.examples.pluggable')
 
 if __name__ == "__main__":
     app.run(debug=True)

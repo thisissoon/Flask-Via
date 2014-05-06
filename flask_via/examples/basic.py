@@ -25,7 +25,7 @@ routes = [
 ]
 
 via = Via()
-via.init_app(app, route_module='flask_via.examples.basic')
+via.init_app(app, routes_module='flask_via.examples.basic')
 
 if __name__ == "__main__":
     app.run(debug=True)

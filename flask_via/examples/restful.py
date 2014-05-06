@@ -20,7 +20,11 @@ api = restful.Api(app)
 class FooResource(restful.Resource):
 
     def get(self, bar=None):
-        return {'hello': 'world'}
+        rtn = {'hello': 'world'}
+        if bar:
+            rtn['bar'] = bar
+
+        return rtn
 
 
 routes = [
