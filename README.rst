@@ -1,9 +1,9 @@
 ``Flask-Via``
 =============
 
-Inspired by Django's URL configuration ``Flask-Via`` is designed to add similar
-functionality for Flask applications that are goriwng beyind that simple single
-file application.
+Inspired by the Django URL configuration system, ``Flask-Via`` is designed to
+add similar functionality to Flask applications which have grown beyond a
+simple single file application.
 
 |travis_master| |coveralls_master| |health| |PyPi_version| |PyPi_downloads|
 
@@ -35,22 +35,22 @@ Example
 Why?
 ----
 
-Growing your application can be quite hard and not always clear where and how
-your routes are discovered. It can lead to a cluttered application factory
-method where you define all your routes at application creation and this is
-hard to maintain and not to mention messy.
+Growing your application can be quite difficult when it's not always clear
+where and how your routes are discovered. This can lead to a cluttered
+application factory method when all your routes are defined at application
+creation - resulting in code which is difficult to maintain, not to mention
+messy.
 
-A better way would be to define your routes on a ``routes.py`` and
-automatically load them at application start up, this is what ``Flask-Via``
-helps to do.
+A better solution is to define your routes in a ``routes.py`` and automatically
+load them at application start up. This is what ``Flask-Via`` helps to do.
 
 Third party Flask extensions don't always follow the same conventions for
-adding routes to an application so ``Flask-Via`` has been designed to be easy
-for developers to write their own custom routers, for example take a look at
-the bundled ``Flask-Restful`` Resource_ router.
+adding routes to an application, so ``Flask-Via`` has been designed to be easy
+for developers to write their own custom routers. For an example of this, take
+a look at the bundled ``Flask-Restful`` Resource_ router.
 
-If you do write a custom router that is useful to you it is probably be useful
-to someone else so please do contribute back :)
+If you do write a custom router that is useful to you, it will probably be
+useful to someone else so please do contribute back :)
 
 Links
 -----
