@@ -1,9 +1,7 @@
 Route Discovery
 ===============
 
-Your routes need to live somewhere and they can live anywhere you want them to
-but they need to be importable by python so ``Flask-Via`` can load them in at
-application start up.
+Routes can live anywhere you want them too, as long as they are importable.
 
 You can tell ``Flask-Via`` where to find routes in a couple of ways:
 
@@ -11,10 +9,10 @@ You can tell ``Flask-Via`` where to find routes in a couple of ways:
 2. ``routes_module`` argument passed into ``init_app`` in your application
    factory method.
 
-Use which ever you prefer:
+You can use which ever you prefer.
 
-Example 1
----------
+Using Application Config
+------------------------
 
 .. sourcecode:: python
 
@@ -30,8 +28,8 @@ Example 1
     if __name__ == "__main__":
         app.run(debug=True)
 
-Example 2
----------
+Using ``init_app`` setting ``routes_module``
+--------------------------------------------
 
 .. sourcecode:: python
 
@@ -49,10 +47,23 @@ Example 2
 Route Module
 ------------
 
-All the route module needs to do is define a list of routes, by default this
-list should be called ``routes`` but as with how the module is discovered you
-can change this too by passing the ``routes_name`` keyword argument into
-``init_app`` at application start up.
+The routes module should define a ``list`` of routes, by default this list
+is called ``routes``::
+
+    routes = [
+        Basic('/', home),
+        Basic('/about', about),
+    ]
+
+You can configure ``Flask-Via`` to look for any variable name of your choosing,
+this is done by passing an argument named ``routes_name`` into ``init_app``,
+for example::
+
+    via = Via()
+    via.init_app(app, routes_name='urls')
+
+Application Example
+-------------------
 
 Assume we have the following application structure::
 
