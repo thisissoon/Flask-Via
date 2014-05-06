@@ -217,7 +217,7 @@ class Blueprint(BaseRouter, RoutesImporter):
             Python dotted path to the routes module containing routes.
         """
 
-        return u'{0}.{1}'.format(self.module, self.routes_module_name)
+        return '{0}.{1}'.format(self.module, self.routes_module_name)
 
     def create_blueprint(self):
         """ Creates a flask blueprint instance.
