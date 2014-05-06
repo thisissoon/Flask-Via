@@ -5,7 +5,7 @@ Inspired by Django's URL configuration ``Flask-Via`` is designed to add similar
 functionality for Flask applications that are goriwng beyind that simple single
 file application.
 
-|travis_master| |coveralls_master| |PyPi_version| |PyPi_downloads|
+|travis_master| |coveralls_master| |health| |PyPi_version| |PyPi_downloads|
 
 Example
 -------
@@ -74,5 +74,9 @@ Links
 .. |travis_master| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
     :target: https://travis-ci.org/thisissoon/Flask-Via
     :alt: Travis build status on Master Branch
+
+.. |health| image:: https://landscape.io/github/thisissoon/Flask-Via/master/landscape.png
+   :target: https://landscape.io/github/thisissoon/Flask-Via/master
+   :alt: Code Health
 
 .. _Resource: http://flask-via.thisissoon.com/en/latest/api.html#flask_via.routers.restful.Resource
