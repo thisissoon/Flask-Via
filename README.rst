@@ -59,7 +59,7 @@ Links
 * CI: https://travis-ci.org/thisissoon/Flask-Via
 * Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
-.. |PyPi_version| image:: https://badge.fury.io/py/Flask-Via.svg
+.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.png
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Latest PyPI version
 
