@@ -60,15 +60,15 @@ Links
 * CI: https://travis-ci.org/thisissoon/Flask-Via
 * Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
-.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.png
+.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.svg
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Latest PyPI version
 
-.. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.png?period=month
+.. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.svg?period=month
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
 
-.. |license| image:: https://pypip.in/license/Flask-Via/badge.png
+.. |license| image:: https://pypip.in/license/Flask-Via/badge.svg
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: MIT License
 
