@@ -72,8 +72,9 @@ setup(
     version=open('VERSION').read().strip(),
     author='SOON_',
     author_email='dorks@thisissoon.com',
-    url='https://github.com/thisissoon/Flask-Via',
-    description='Flask-Via adds Django style url routing configuration.',
+    url='http://flask-via.thisissoon.com',
+    description='Flask-Via adds a cleaner method for defining routes '
+                'to your Flask views, inspired by Django urls.',
     long_description=open('README.rst').read(),
     packages=find_packages(
         exclude=[
@@ -94,10 +95,11 @@ setup(
     entry_points={},
     # Classifiers for Package Indexing
     classifiers=[
+        'Framework :: Flask',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
