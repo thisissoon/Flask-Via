@@ -71,11 +71,8 @@ class Resource(BaseRouter):
         ---------
         app : flask.app.Flask
             Flask application instance, this is ignored.
-
-        Keyword Arguments
-        -----------------
-        restful_api : str
-            Instantiated restful API instace, used to add the route.
+        \*\*kwargs
+            Arbitrary keyword arguments
 
         Raises
         ------

@@ -71,11 +71,8 @@ class AdminRoute(BaseRouter):
         ---------
         app : flask.app.Flask
             Flask application instance, this is ignored.
-
-        Keyword Arguments
-        -----------------
-        restful_api : flask_admin.base.Admin
-            Instantiated ``Flask-Admin`` instace, used to add the view.
+        \*\*kwargs
+            Arbitrary keyword arguments
 
         Raises
         ------
