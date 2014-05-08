@@ -78,6 +78,11 @@ class Basic(BaseRouter):
             Arbitrary keyword arguments passed in to ``init_app``
         """
 
+        #: If this route was included a url preifx may have been passed
+        #: to the route
+        if 'url_prefix' in kwargs:
+            self.url = kwargs['url_prefix'] + self.url
+
         app.add_url_rule(self.url, self.endpoint, self.func)
 
 
@@ -130,6 +135,11 @@ class Pluggable(BaseRouter):
         \*\*kwargs
             Arbitrary keyword arguments passed in to ``init_app``
         """
+
+        #: If this route was included a url preifx may have been passed
+        #: to the route
+        if 'url_prefix' in kwargs:
+            self.url = kwargs['url_prefix'] + self.url
 
         app.add_url_rule(self.url, **self.kwargs)
 
@@ -219,9 +229,15 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         return '{0}.{1}'.format(self.module, self.routes_module_name)
 
-    def create_blueprint(self):
+    def create_blueprint(self, **kwargs):
         """ Creates a flask blueprint instance.
         """
+
+        #: If this route was included a url preifx may have been passed
+        #: to the route
+        if 'url_prefix' in kwargs:
+            url_prefix = self.url_prefix or ''
+            self.url_prefix = kwargs['url_prefix'] + url_prefix
 
         blueprint = FlaskBlueprint(
             self.name,
@@ -249,13 +265,13 @@ class Blueprint(BaseRouter, RoutesImporter):
         """
 
         # Register blueproiint
-        blueprint = self.create_blueprint()
+        blueprint = self.create_blueprint(**kwargs)
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)
 
         # Load the routes
-        self.load(blueprint, routes, **kwargs)
+        self.load(blueprint, routes)
 
         # Register the blueprint with the application
         app.register_blueprint(blueprint)
