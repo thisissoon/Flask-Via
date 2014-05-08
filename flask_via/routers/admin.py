@@ -31,25 +31,25 @@ class AdminRoute(BaseRouter):
         admin = Admin(name='Admin')
         admin.init_app(app)
 
-        class MyView(BaseView):
+
+        class FooAdminView(BaseView):
 
             @expose('/')
             def index(self):
-                return self.render('admin/myindex.html')
+                return 'foo'
 
         routes = [
-            AdminRoute(MyView(name='Hello'))
+            AdminRoute(FooAdminView(name='Foo'))
         ]
 
         via = Via()
         via.init_app(
             app,
             routes_module='flask_via.examples.admin',
-            flask_admin=api)
+            flask_admin=admin)
 
         if __name__ == '__main__':
             app.run(debug=True)
-
     """
 
     def __init__(self, view):
@@ -88,6 +88,6 @@ class AdminRoute(BaseRouter):
         except KeyError:
             raise NotImplementedError(
                 'flask_admin not passed to add_to_app, did you add it to '
-                'via.init_app')
+                'via.init_app?')
 
         admin.add_view(self.view)

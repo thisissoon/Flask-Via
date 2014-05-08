@@ -64,7 +64,7 @@ class Resource(BaseRouter):
         self.resource = resource
         self.endpoint = endpoint
 
-    def add_to_app(self, app, restful_api=None):
+    def add_to_app(self, app, **kwargs):
         """ Adds the restul api resource route to the application.
 
         Arguments
@@ -83,8 +83,12 @@ class Resource(BaseRouter):
             If ``restful_api`` is not provided
         """
 
-        if not restful_api:
-            raise NotImplementedError('restful_api not passed to add_to_app')
+        try:
+            restful_api = kwargs['restful_api']
+        except KeyError:
+            raise NotImplementedError(
+                'restful_api not passed to add_to_app, did you add it to '
+                'via.init_app?')
 
         restful_api.add_resource(
             self.resource,
