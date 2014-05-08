@@ -6,7 +6,7 @@
  * :license: Flask Design License, see LICENSE for details.
  */
 
-{% set page_width = '1040px' %}
+{% set page_width = '1100px' %}
 {% set sidebar_width = '320px' %}
 {% set hover_color = '#000000' %}
 

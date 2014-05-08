@@ -26,6 +26,13 @@ class TestFlaskBasicRouter(unittest.TestCase):
 
         self.app.add_url_rule.assert_called_once_with('/', 'foo', view)
 
+    def test_url_prefix(self):
+        view = mock.MagicMock()
+        route = default.Basic('/', view, endpoint='foo')
+        route.add_to_app(self.app, url_prefix='/foo')
+
+        self.app.add_url_rule.assert_called_once_with('/foo/', 'foo', view)
+
 
 class TestFlaskPluggableRouter(unittest.TestCase):
 
@@ -39,6 +46,16 @@ class TestFlaskPluggableRouter(unittest.TestCase):
 
         self.app.add_url_rule.assert_called_once_with(
             '/',
+            view_func=view,
+            endpoint='foo')
+
+    def test_url_prefix(self):
+        view = mock.MagicMock()
+        route = default.Pluggable('/', view_func=view, endpoint='foo')
+        route.add_to_app(self.app, url_prefix='/foo')
+
+        self.app.add_url_rule.assert_called_once_with(
+            '/foo/',
             view_func=view,
             endpoint='foo')
 
@@ -58,6 +75,13 @@ class TestBlueprintRouter(unittest.TestCase):
         route = default.Blueprint('foo', 'foo.bar')
 
         self.assertIsInstance(route.create_blueprint(), Blueprint)
+
+    @mock.patch('flask.helpers.get_root_path')
+    def test_url_prefix(self, _get_root_path):
+        route = default.Blueprint('foo', 'foo.bar')
+        blueprint = route.create_blueprint(url_prefix='/foo')
+
+        self.assertEqual(blueprint.url_prefix, '/foo')
 
     @mock.patch('flask_via.routers.default.Blueprint.include')
     @mock.patch('flask_via.routers.default.Blueprint.create_blueprint')

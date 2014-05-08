@@ -108,7 +108,7 @@ Resouce Router
     Before using this router be sure you have read the section directly above.
 
 The :py:class:`flask_via.routers.restful.Resource` router allows us to register
-``Flask-Restful`` resources to our application.
+``Flask-Restful`` resources to your application.
 
 **Arguments**:
     * ``url``: The url for this route, e.g: ``/foo``
@@ -130,4 +130,70 @@ Example
     routes = [
         Resource('/', FooResource)
         Resource('/<bar>', FooResource, endpoint='foobar')
+    ]
+
+``Flask-Admin`` Routers
+-----------------------
+
+As with the ``Flask-Restful`` router you need to pass an extra argument to
+``via.init_app`` called ``flask_admin`` which should hold the ``Flask-Admin``
+instance.
+
+.. sourcecode:: python
+    :linenos:
+    :emphasize-lines: 14
+
+    from flask import Flask
+    from flask.ext.admin import Admin
+    from flask.ext.via import Via
+
+    app = Flask(__name__)
+
+    admin = Admin(name='Admin')
+    admin.init_app(app)
+
+    via = Via()
+    via.init_app(
+        app,
+        routes_module='flask_via.examples.admin',
+        flask_admin=admin)
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+Note that line ``14`` is where the instantiated ``Flask-Admin`` instance gets
+passed into ``via.init_app``.
+
+Admin Router
+~~~~~~~~~~~~
+
+.. warning::
+    Before using this router be sure you have read the section directly above.
+
+The :py:class:`flask_via.routers.admin.AdminRoute` router allows us to register
+``Flask-Admin`` views to your application. ``Flask-Admin`` handles defining
+urls for its views so a ``url`` argument is not requied, all is required is
+the ``Flask-Admin`` view class.
+
+**Arguments**:
+    * ``view``: An instantiated ``Flask-Admin`` view
+
+Example
+^^^^^^^
+
+.. sourcecode:: python
+
+    class FooAdminView(BaseView):
+
+        @expose('/')
+        def index(self):
+            return 'foo'
+
+        @expose('/bar')
+        def index(self):
+            return 'bar'
+
+
+    routes = [
+        AdminRoute(FooAdminView(name='Foo'))
     ]

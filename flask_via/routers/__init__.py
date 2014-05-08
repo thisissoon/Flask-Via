@@ -41,7 +41,7 @@ class BaseRouter(object):
 
         raise NotImplementedError('__init__ must be overridden')
 
-    def add_to_app(self):
+    def add_to_app(self, app, **kwargs):
         """ Method all routers require, which handles adding the route to
         the application instance.
 
@@ -64,7 +64,7 @@ class Include(BaseRouter, RoutesImporter):
     This is not a implementation of Flask blueprints
     """
 
-    def __init__(self, routes_module, routes_name='routes'):
+    def __init__(self, routes_module, routes_name='routes', url_prefix=None):
         """ Constructor for Include router, taking the passed arguments
         and storing them on the instance.
 
@@ -78,10 +78,14 @@ class Include(BaseRouter, RoutesImporter):
         routes_name : str (optional)
             Name of the variable holding the routes in the module, defaults to
             ``routes``
+        url_prefix : str (optional)
+            Adds a url prefix to all routes included by the router, defaults
+            to ``None``
         """
 
         self.routes_module = routes_module
         self.routes_name = routes_name
+        self.url_prefix = url_prefix
 
     def add_to_app(self, app, **kwargs):
         """ Instead of adding a route to the flask application this will
@@ -95,6 +99,16 @@ class Include(BaseRouter, RoutesImporter):
         \*\*kwargs
             Arbitrary keyword arguments passed in to ``init_app``
         """
+
+        # Inject url_prefix into kwargs
+        if self.url_prefix is not None:
+            # This allows us to chain url prefix's when multiple includes
+            # are called
+            try:
+                url_prefix = kwargs['url_prefix']
+            except KeyError:
+                url_prefix = ''
+            kwargs['url_prefix'] = url_prefix + self.url_prefix
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)

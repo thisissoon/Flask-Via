@@ -6,6 +6,7 @@ add similar functionality to Flask applications which have grown beyond a
 simple single file application.
 
 |travis_master| |coveralls_master| |health| |PyPi_version| |PyPi_downloads|
+|license|
 
 Example
 -------
@@ -59,13 +60,17 @@ Links
 * CI: https://travis-ci.org/thisissoon/Flask-Via
 * Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
-.. |PyPi_version| image:: https://badge.fury.io/py/Flask-Via.svg
+.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.svg
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Latest PyPI version
 
-.. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.png
+.. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.svg?period=month
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
+
+.. |license| image:: https://pypip.in/license/Flask-Via/badge.svg
+    :target: https://pypi.python.org/pypi/Flask-Via
+    :alt: MIT License
 
 .. |coveralls_master| image:: https://coveralls.io/repos/thisissoon/Flask-Via/badge.png?branch=master
     :target: https://coveralls.io/r/thisissoon/Flask-Via?branch=master

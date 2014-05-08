@@ -50,3 +50,31 @@ class TestIncludeRouter(unittest.TestCase):
 
         for instance in routes:
             instance.add_to_app.assert_called_once_with(self.app)
+
+    @mock.patch('flask_via.import_module')
+    def test_url_prefix(self, import_module):
+        route1 = mock.MagicMock()
+        route2 = mock.MagicMock()
+        urls = [
+            route1,
+            route2,
+            Include('other.urls', url_prefix='/bar')
+        ]
+        routes = list(urls)
+        routes.pop()
+
+        import_module.side_effect = [
+            mock.MagicMock(urls=urls),
+            mock.MagicMock(routes=routes)
+        ]
+
+        route = Include('foo.bar', routes_name='urls', url_prefix='/foo')
+        route.add_to_app(self.app)
+
+        calls = [
+            mock.call(self.app, url_prefix='/foo'),
+            mock.call(self.app, url_prefix='/foo/bar')
+        ]
+
+        for instance in routes:
+            instance.add_to_app.assert_has_calls(calls)

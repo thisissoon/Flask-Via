@@ -27,7 +27,8 @@ class TestRestfulRouter(unittest.TestCase):
 
         self.assertEqual(
             str(e.exception),
-            'restful_api not passed to add_to_app')
+            'restful_api not passed to add_to_app, did you add it to '
+            'via.init_app?')
 
     def test_add_to_app(self):
 

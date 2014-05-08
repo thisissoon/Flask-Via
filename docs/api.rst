@@ -23,3 +23,9 @@ API
     :private-members:
     :special-members: __init__
     :show-inheritance:
+
+.. automodule:: flask_via.routers.admin
+    :members:
+    :private-members:
+    :special-members: __init__
+    :show-inheritance:

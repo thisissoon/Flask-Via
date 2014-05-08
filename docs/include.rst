@@ -18,6 +18,7 @@ somewhere else in your application.
 **Keyword Arguments**:
     * ``routes_name``: (Optional) If you have not called the list of routes in
       the moduke ``routes`` you can set that here, for example ``urls``.
+    * ``url_prefix``: (optional) Add a url prefix to all routes included
 
 Example
 ~~~~~~~
@@ -51,6 +52,34 @@ In the ``foo.routes`` we would have::
 
 You can see this in action with the
 `Small Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/small>`_.
+
+URL Prefixes
+~~~~~~~~~~~~
+
+The :py:class:`flask_via.routers.Include` class also allows you to add a
+``url_prefix`` similar to blueprints.
+
+The following routers support the ``url_prefix`` being passed to their
+``add_to_app`` methods:
+
+* :py:class:`flask_via.routers.default.Basic`
+* :py:class:`flask_via.routers.default.Pluggable`
+* :py:class:`flask_via.routers.default.Blueprint`
+
+Example
+^^^^^^^
+
+Assume the same application structure as in the above examples except the
+top level ``routes.py`` now looks like this::
+
+    from flask.ext.via.routers import Include
+
+    routes = [
+        Include('foo.bar.routes', url_prefix='/foo')
+    ]
+
+This will result in the url to the view becoming ``/foo/bar`` instead of
+``/bar``.
 
 Blueprint Router
 ----------------
@@ -119,3 +148,49 @@ In our blueprints views we can define routes as normal::
     All routes will be added to the blueprint rather than the flask
     application, this applies to any routes included using the ``Include``
     router.
+
+Including Blueprints
+~~~~~~~~~~~~~~~~~~~~
+
+You can use the :py:class:`flask_via.routers.Include` router to also include
+blueprints, you can even add ``url_prefix`` to prefix the blueprints
+``url_prefix``, crazy eh?
+
+Example
+^^^^^^^
+
+Let us assume we have the same application structure as in the earlier
+blueprint examples, except our top level ``routes.py`` now looks like this::
+
+    from flask.ext.via.routers import default, Include
+
+    routes = [
+        Include('foo.routes', routes_name='api', url_prefix='/api/v1')
+    ]
+
+    api = [
+        default.Blueprint('bar', 'foo.bar', url_prefix='/bar')
+        # These don't exist but just for illustraion purposes
+        default.Blueprint('baz', 'foo.baz', url_prefix'/baz')
+        default.Blueprint('fap', 'foo.fap', url_prefix'/fap')
+    ]
+
+Here we will include all the routes defined in the ``api`` list which are all
+blueprints, each blueprint will be registered with a ``url_prefix`` of
+``/api/v1`` as well their url prefixes for the blueprint, so the above
+blueprints will be accessible on the followibg urls:
+
+* ``/api/v1/bar``
+* ``/api/v1/baz``
+* ``/api/v1/fap``
+
+If each of these blueprints had a route defined with a url of ``/bar`` these
+would be accessed on the following urls:
+
+* ``/api/v1/bar/bar``
+* ``/api/v1/baz/bar``
+* ``/api/v1/fap/bar``
+
+Hopefully you can see from this that :py:class:`flask_via.routers.Include`
+coupled with :py:class:`flask_via.routers.default.Blueprint` can offer some
+potentially powerful routing options for your application.
