@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Next Release
+------------
+* Feature: Flask Admin Router
+
 2014.05.06
 ----------
 * Feature: Flask extension initialisation
