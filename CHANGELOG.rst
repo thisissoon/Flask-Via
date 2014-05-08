@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Next Release
-------------
+2014.05.08
+----------
 * Feature: Flask Admin Router
 * Feature: Include ``url_prefix`` option
 
