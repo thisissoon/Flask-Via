@@ -84,15 +84,27 @@ This will result in the url to the view becoming ``/foo/bar`` instead of
 Blueprint Router
 ----------------
 
-Flask Blueprints are also supported allowing ``Flask-Via`` to automatically
-register blueprints on the application and routes on the blueprint, this is
-provided by the :py:class:`flask_via.routers.default.Blueprint` router.
+Flask Blueprints are also supported allowing ``Flask-Via``.
+
+You can either let ``Flask-Via`` automatically create and register your
+blueprint or create an instance of your blueprint and pass that to the
+Blueprint router.
+
+.. seealso::
+
+    * :py:class:`flask_via.routers.default.Blueprint`.
+
+.. note::
+
+    All routes will be added to the blueprint rather than the flask
+    application, this applies to any routes included using the ``Include``
+    router.
 
 **Arguments**:
-    * ``name`` : Blueprint name
-    * ``module``: Python module path to blueprint module
+    * ``name_or_instance``: A Blueprint name or a Blueprint instance
 
 **Keyword Arguments**:
+    * ``module``: Python module path to blueprint module, defaults to ``None``
     * ``routes_module_name``: The module ``Flask-Via`` will look for within
       the blueprint module which contains the routes, defaults to ``routes``
     * ``routes_name``: If you have not called the list of routes in
@@ -108,8 +120,8 @@ provided by the :py:class:`flask_via.routers.default.Blueprint` router.
       It's called with the endpoint and values and should update
       the values passed in place, defaults to ``None``.
 
-Example
-~~~~~~~
+Automatic Example
+~~~~~~~~~~~~~~~~~
 
 Let us assume we have the following application structure::
 
@@ -144,10 +156,36 @@ In our blueprints views we can define routes as normal::
         default.Basic('/bar', some_view)
     ]
 
-.. note::
-    All routes will be added to the blueprint rather than the flask
-    application, this applies to any routes included using the ``Include``
-    router.
+Instance Example
+~~~~~~~~~~~~~~~~
+
+If you do not wish ``Flask-Via`` to automatically create the Blueprint instance
+you can pass a Blueprint instance as the first and only argument into the.
+
+In the above example we would alter the contents of
+``/path/to/foo/bar/routes.py`` as follows::
+
+    from flask import Blueprint
+    from flask.ext.via.routes import default
+    from foo.bar.views import some_view
+
+    blueprint = Blueprint('bar', 'foo.bar', template_folder='templates')
+
+    routes = [
+        default.Basic('/bar', some_view)
+    ]
+
+And now in our ``/path/to/foo/routes.py`` we would import the blueprint and
+pass it into the router::
+
+    from foo.bar.routes import blueprint
+    from flask.ext.via.routers.default import Blueprint
+
+    routes = [
+        Blueprint(blueprint)
+    ]
+
+Of course you can crate your Blueprint instance where ever you wish.
 
 Including Blueprints
 ~~~~~~~~~~~~~~~~~~~~

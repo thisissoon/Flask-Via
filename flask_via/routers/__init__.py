@@ -14,6 +14,8 @@ class BaseRouter(object):
     """ Base router class all routers should inherit from providing common
     router functionality.
 
+    .. versionadded:: 2014.05.06
+
     Example
     -------
     .. sourcecode:: python
@@ -59,6 +61,8 @@ class Include(BaseRouter, RoutesImporter):
     handy when you want to break out your routes into separate files for
     sanity.
 
+    .. versionadded:: 2014.05.06
+
     Note
     ----
     This is not a implementation of Flask blueprints
@@ -67,6 +71,10 @@ class Include(BaseRouter, RoutesImporter):
     def __init__(self, routes_module, routes_name='routes', url_prefix=None):
         """ Constructor for Include router, taking the passed arguments
         and storing them on the instance.
+
+        .. versionchanged:: 2014.05.08
+
+            * ``url_prefix`` argument added
 
         Arguments
         ---------
