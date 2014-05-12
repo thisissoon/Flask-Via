@@ -11,6 +11,7 @@ import mock
 import unittest
 
 from flask_via import Via, RoutesImporter
+from flask_via.exceptions import ImproperlyConfigured
 
 
 class TestVia(unittest.TestCase):
@@ -21,7 +22,7 @@ class TestVia(unittest.TestCase):
     def test_init_app_raises_not_implemented(self):
         via = Via()
 
-        with self.assertRaises(NotImplementedError) as e:
+        with self.assertRaises(ImproperlyConfigured) as e:
             via.init_app(self.app)
 
         self.assertEqual(

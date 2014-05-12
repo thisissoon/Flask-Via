@@ -5,6 +5,7 @@ flask_via
 ---------
 """
 
+from flask_via.exceptions import ImproperlyConfigured
 from importlib import import_module
 
 
@@ -30,6 +31,13 @@ class RoutesImporter(object):
         -------
         list
             List of routes in the module
+
+        Raises
+        ------
+        ImportError
+            If the route module cannot be imported
+        AttributeError
+            If routes do not exist in the moduke
         """
 
         # Import the moduke
@@ -88,6 +96,10 @@ class Via(RoutesImporter):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
 
+        .. versionchanged:: #NEXTRELEASE
+
+            * Replace ``NotImplementedError`` with ``ImproperlyConfigured``
+
         Arguments
         ---------
         app : flask.app.Flask
@@ -106,12 +118,8 @@ class Via(RoutesImporter):
 
         Raises
         ------
-        ImportError
-            If the route module cannot be imported
-        AttributeError
-            If routes do not exist in the moduke
-        NotImplementedError
-            If ``VIA_ROUTE_MODULE`` is not configured in appluication config
+        ImproperlyConfigured
+            If ``VIA_ROUTES_MODULE`` is not configured in appluication config
             and ``route_module`` keyword argument has not been provided.
         """
 
@@ -119,7 +127,7 @@ class Via(RoutesImporter):
             routes_module = app.config.get('VIA_ROUTES_MODULE')
 
         if not routes_module:
-            raise NotImplementedError(
+            raise ImproperlyConfigured(
                 'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
 
