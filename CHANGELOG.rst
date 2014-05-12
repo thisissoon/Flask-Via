@@ -3,6 +3,10 @@ Change Log
 
 Next Release
 ------------
+* Feature: Blueprint router can now take a blueprint instance
+
+2014.05.08
+----------
 * Feature: Flask Admin Router
 * Feature: Include ``url_prefix`` option
 

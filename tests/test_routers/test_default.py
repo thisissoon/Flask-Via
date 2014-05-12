@@ -71,28 +71,36 @@ class TestBlueprintRouter(unittest.TestCase):
         self.assertEqual(route.routes_module, 'foo.bar.routes')
 
     @mock.patch('flask.helpers.get_root_path')
-    def test_create_bluepint_returns_blurprint(self, _get_root_path):
+    def test_bluepint_creates_blurprint(self, _get_root_path):
         route = default.Blueprint('foo', 'foo.bar')
 
-        self.assertIsInstance(route.create_blueprint(), Blueprint)
+        self.assertIsInstance(route.blueprint(), Blueprint)
+
+    @mock.patch('flask.helpers.get_root_path')
+    def test_bluepint_returns_blurprint(self, _get_root_path):
+        blueprint = Blueprint('foo', __name__)
+        route = default.Blueprint(blueprint)
+
+        self.assertIsInstance(route.blueprint(), Blueprint)
+        self.assertEqual(route.blueprint(), blueprint)
 
     @mock.patch('flask.helpers.get_root_path')
     def test_url_prefix(self, _get_root_path):
         route = default.Blueprint('foo', 'foo.bar')
-        blueprint = route.create_blueprint(url_prefix='/foo')
+        blueprint = route.blueprint(url_prefix='/foo')
 
         self.assertEqual(blueprint.url_prefix, '/foo')
 
     @mock.patch('flask_via.routers.default.Blueprint.include')
-    @mock.patch('flask_via.routers.default.Blueprint.create_blueprint')
-    def test_add_to_app(self, _create_blueprint, _include):
+    @mock.patch('flask_via.routers.default.Blueprint.blueprint')
+    def test_add_to_app(self, _blueprint, _include):
         blueprint = mock.MagicMock()
         routes = [
             mock.MagicMock(),
             mock.MagicMock()
         ]
         _include.return_value = routes
-        _create_blueprint.return_value = blueprint
+        _blueprint.return_value = blueprint
 
         route = default.Blueprint('foo', 'foo.bar')
         route.add_to_app(self.app)

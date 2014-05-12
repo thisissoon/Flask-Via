@@ -359,7 +359,7 @@ dl dl pre {
 tt {
     background-color: #ecf0f3;
     color: #222;
-    /* padding: 1px 2px; */
+    padding: 2px;
 }
 
 tt.xref, a tt {
@@ -447,4 +447,25 @@ a:hover tt {
 
 .revsys-inline {
     display: none!important;
+}
+
+/* version */
+.versionadded, .versionchanged {
+    background-color: #D1EDFF;
+    border: 1px solid #83CEFC;
+    margin-bottom: 20px;
+}
+
+.versionadded {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.versionadded p {
+    margin-bottom:0px;
+}
+
+.versionmodified {
+    font-style: normal;
+    font-weight: 700;
 }

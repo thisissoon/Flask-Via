@@ -17,6 +17,8 @@ class AdminRoute(BaseRouter):
     ``flask_admin`` to ``init_app`` with its value being the Flask-Aadmin
     extension instance.
 
+    .. versionadded:: 2014.05.08
+
     Note
     ----
     ``Flask-Admin`` has its own way of handling defining urls so this router

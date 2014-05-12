@@ -11,6 +11,8 @@ from importlib import import_module
 class RoutesImporter(object):
     """ Handles the import of routes module and obtaining a list of routes
     from that module as well as loading each route onto the application
+
+    .. versionadded:: 2014.05.06
     """
 
     def include(self, routes_module, routes_name):
@@ -49,6 +51,8 @@ class RoutesImporter(object):
 
 class Via(RoutesImporter):
     """ The core class which kicks off the whole registration processes.
+
+    .. versionadded:: 2014.05.06
 
     Example
     -------

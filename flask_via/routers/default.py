@@ -31,6 +31,8 @@ class Basic(BaseRouter):
     namely functionally based views which would normally use the ``@route``
     decorator.
 
+    .. versionadded:: 2014.05.06
+
     Example
     -------
     .. sourcecode:: python
@@ -90,6 +92,8 @@ class Pluggable(BaseRouter):
     """ Pluggable View router class, allows Flask pluggable view routes to be
     added to the flask application.
 
+    .. versionadded:: 2014.05.06
+
     Example
     -------
     .. sourcecode:: python
@@ -148,21 +152,40 @@ class Blueprint(BaseRouter, RoutesImporter):
     """ Registers a flask blueprint and registers routes to that blueprint,
     similar to :py:class:`flask_via.routes.Include`.
 
+    .. versionadded:: 2014.05.06
+
     Example
     -------
+
+    **Auto creates Blueprint instance***
+
     .. sourcecode:: python
 
         from flask.ext.via.routers import default
 
         routes = [
-            default.blueprint('foo', 'flask_via.examples.blueprints.foo')
+            default.Blueprint('foo', 'flask_via.examples.blueprints.foo')
         ]
+
+    **Pass existing Blueprint instance***
+
+    .. sourcecode:: python
+
+        from flask import Blueprint
+        from flask.ext.via.routers import default
+
+        blueprint = Blueprint('foo', __name__)
+
+        routes = [
+            default.Blueprint(blueprint)
+        ]
+
     """
 
     def __init__(
             self,
-            name,
-            module,
+            name_or_instance,
+            module=None,
             routes_module_name='routes',
             routes_name='routes',
             static_folder=None,
@@ -173,15 +196,22 @@ class Blueprint(BaseRouter, RoutesImporter):
             url_defaults=None):
         """ Constructor for blueprint router.
 
+        .. versionchanged:: #TODO
+
+            * Replaced ``name`` with ``name_or_instance`` argument which allows
+              the router to take an already instantiated blueprint instance.
+            * ``module`` argument optional when instance is passed as the
+              first argument
+
         Arguments
         ---------
-        name : str
-            Blueprint name
-        module : str
-            Python dotted path to the blueprint module, not the routes module
+        name : str, flask.blueprints.Blueprint
+            Blueprint name or a Blueprint class instance
 
         Keyword Arguments
         -----------------
+        module : str
+            Python dotted path to the blueprint module
         routes_module_name : str, optional
             The module ``Flask-Via`` will look for within the blueprint module
             which contains the routes, defaults to ``routes``
@@ -205,8 +235,14 @@ class Blueprint(BaseRouter, RoutesImporter):
             the values passed in place, defaults to ``None``.
         """
 
-        self.name = name
-        self.module = module
+        if isinstance(name_or_instance, FlaskBlueprint):
+            self.instance = name_or_instance
+            self.name = self.instance.name
+            self.module = self.instance.import_name
+        else:
+            self.name = name_or_instance
+            self.module = module
+
         self.routes_module_name = routes_module_name
         self.routes_name = routes_name
         self.static_folder = static_folder
@@ -229,25 +265,40 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         return '{0}.{1}'.format(self.module, self.routes_module_name)
 
-    def create_blueprint(self, **kwargs):
-        """ Creates a flask blueprint instance.
+    def blueprint(self, **kwargs):
+        """ Returns a Flask Blueprint instance, either one provided or created
+        here.
+
+        .. versionchanged:: #TODO
+
+            * Renamed method from ``create_blueprint`` to ``blueprint``
+            * If ``instance`` attribute exists, use this is as the blueprint
+              else create the blueprint.
+
+        Returns
+        -------
+        flask.blueprints.Blueprint
+            An instantiated Flask Blueprint instance
         """
 
-        #: If this route was included a url preifx may have been passed
-        #: to the route
-        if 'url_prefix' in kwargs:
-            url_prefix = self.url_prefix or ''
-            self.url_prefix = kwargs['url_prefix'] + url_prefix
+        try:
+            blueprint = self.instance
+        except AttributeError:
+            #: If this route was included a url preifx may have been passed
+            #: to the route
+            if 'url_prefix' in kwargs:
+                url_prefix = self.url_prefix or ''
+                self.url_prefix = kwargs['url_prefix'] + url_prefix
 
-        blueprint = FlaskBlueprint(
-            self.name,
-            self.module,
-            static_folder=self.static_folder,
-            static_url_path=self.static_url_path,
-            template_folder=self.template_folder,
-            url_prefix=self.url_prefix,
-            subdomain=self.subdomain,
-            url_defaults=self.url_defaults)
+            blueprint = FlaskBlueprint(
+                self.name,
+                self.module,
+                static_folder=self.static_folder,
+                static_url_path=self.static_url_path,
+                template_folder=self.template_folder,
+                url_prefix=self.url_prefix,
+                subdomain=self.subdomain,
+                url_defaults=self.url_defaults)
 
         return blueprint
 
@@ -265,7 +316,7 @@ class Blueprint(BaseRouter, RoutesImporter):
         """
 
         # Register blueproiint
-        blueprint = self.create_blueprint(**kwargs)
+        blueprint = self.blueprint(**kwargs)
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)
