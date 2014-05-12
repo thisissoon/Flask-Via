@@ -14,6 +14,21 @@ import os
 import sys
 
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
 
 extras_require = {}
 
@@ -66,6 +81,7 @@ DEV_REQUIREMENTS_FILE = os.path.join('REQS_DEV.txt')
 extras_require['develop'] = read_requirements(DEV_REQUIREMENTS_FILE) + \
     read_requirements(TEST_REQUIREMENTS_FILE)
 
+
 # Setup function
 setup(
     name='Flask-Via',
@@ -83,12 +99,13 @@ setup(
     include_package_data=True,
     zip_safe=False,
     # Dependencies
-    setup_requires=read_requirements(TEST_REQUIREMENTS_FILE),
     install_requires=read_requirements(REQUIREMENTS_FILE),
     extras_require=extras_require,
     # Tests
     tests_require=read_requirements(TEST_REQUIREMENTS_FILE),
-    test_suite='nose.collector',
+    cmdclass={
+        'test': PyTest
+    },
     # Dependencies not hosted on PyPi
     dependency_links=[],
     # Entry point functions

@@ -6,7 +6,7 @@ python:
     - "3.3"
     - "3.4"
 script:
-    - python setup.py nosetests
+    - python setup.py test
 branches:
     only:
         - master

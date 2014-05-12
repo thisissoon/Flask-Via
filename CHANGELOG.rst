@@ -4,6 +4,7 @@ Change Log
 Next Release
 ------------
 * Feature: Blueprint router can now take a blueprint instance
+* Imroved: Test Suite now uses PyTest
 
 2014.05.08
 ----------
