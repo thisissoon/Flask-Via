@@ -68,13 +68,17 @@ class Include(BaseRouter, RoutesImporter):
     This is not a implementation of Flask blueprints
     """
 
-    def __init__(self, routes_module, routes_name='routes', url_prefix=None):
+    def __init__(self, routes_module, routes_name=None, url_prefix=None):
         """ Constructor for Include router, taking the passed arguments
         and storing them on the instance.
 
         .. versionchanged:: 2014.05.08
 
             * ``url_prefix`` argument added
+
+        .. versionchanged:: #NEXTRELEASE
+
+            * ``routes_name`` keyword argument default value set to ``None``
 
         Arguments
         ---------
@@ -107,6 +111,10 @@ class Include(BaseRouter, RoutesImporter):
         \*\*kwargs
             Arbitrary keyword arguments passed in to ``init_app``
         """
+
+        # Routes name can be configured by setting VIA_ROUTES_NAME
+        if not self.routes_name:
+            self.routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
 
         # Inject url_prefix into kwargs
         if self.url_prefix is not None:

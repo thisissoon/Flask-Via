@@ -36,6 +36,16 @@ class TestVia(unittest.TestCase):
         with self.assertRaises(ImportError):
             via.init_app(self.app)
 
+    @mock.patch('flask_via.RoutesImporter.include')
+    def test_via_routes_name_app_config(self, _include):
+        via = Via()
+        self.app.config['VIA_ROUTES_MODULE'] = 'foo.bar'
+        self.app.config['VIA_ROUTES_NAME'] = 'urls'
+
+        via.init_app(self.app)
+
+        _include.assert_called_once_with('foo.bar', 'urls')
+
     @mock.patch('flask_via.import_module')
     def test_init_app_raises_attribute_error(self, import_module):
 

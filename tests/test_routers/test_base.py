@@ -53,6 +53,7 @@ class TestIncludeRouter(unittest.TestCase):
 
     @mock.patch('flask_via.import_module')
     def test_url_prefix(self, import_module):
+        self.app.config.get.return_value = 'routes'
         route1 = mock.MagicMock()
         route2 = mock.MagicMock()
         urls = [

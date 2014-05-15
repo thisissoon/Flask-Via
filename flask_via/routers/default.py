@@ -187,7 +187,7 @@ class Blueprint(BaseRouter, RoutesImporter):
             name_or_instance,
             module=None,
             routes_module_name='routes',
-            routes_name='routes',
+            routes_name=None,
             static_folder=None,
             static_url_path=None,
             template_folder=None,
@@ -196,12 +196,13 @@ class Blueprint(BaseRouter, RoutesImporter):
             url_defaults=None):
         """ Constructor for blueprint router.
 
-        .. versionchanged:: #TODO
+        .. versionchanged:: #NEXTRELEASE
 
             * Replaced ``name`` with ``name_or_instance`` argument which allows
               the router to take an already instantiated blueprint instance.
             * ``module`` argument optional when instance is passed as the
               first argument
+            * ``routes_name`` keyword argument default value set to ``None``
 
         Arguments
         ---------
@@ -217,7 +218,7 @@ class Blueprint(BaseRouter, RoutesImporter):
             which contains the routes, defaults to ``routes``
         routes_name : str, optional
             Name of the variable holding the routes in the module, defaults to
-            ``routes``
+            ``None``
         static_folder : str, optional
             Path to static files for blueprint, defaults to ``None``
         static_url_path : str, optional
@@ -269,7 +270,7 @@ class Blueprint(BaseRouter, RoutesImporter):
         """ Returns a Flask Blueprint instance, either one provided or created
         here.
 
-        .. versionchanged:: #TODO
+        .. versionchanged:: #NEXTRELEASE
 
             * Renamed method from ``create_blueprint`` to ``blueprint``
             * If ``instance`` attribute exists, use this is as the blueprint
@@ -317,6 +318,10 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         # Register blueproiint
         blueprint = self.blueprint(**kwargs)
+
+        # Routes name can be configured by setting VIA_ROUTES_NAME
+        if not self.routes_name:
+            self.routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)

@@ -91,7 +91,7 @@ class Via(RoutesImporter):
             self,
             app,
             routes_module=None,
-            routes_name='routes',
+            routes_name=None,
             **kwargs):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
@@ -99,6 +99,11 @@ class Via(RoutesImporter):
         .. versionchanged:: #NEXTRELEASE
 
             * Replace ``NotImplementedError`` with ``ImproperlyConfigured``
+            * ``routes_name`` keyword argument default value set to ``None``
+            * ``routes_name`` can now be configured using ``VIA_ROUTES_NAME``
+              app configuration variable. If ``routes_name`` keyword argument
+              and ``VIA_ROUTES_NAME`` are not configured the default will be
+              routes.
 
         Arguments
         ---------
@@ -112,7 +117,7 @@ class Via(RoutesImporter):
             to ``None``
         routes_name : str, optional
             Within the routes module look for a variable of this name,
-            defaults to ``routes``
+            defaults to ``None``
         \*\*kwargs
             Arbitrary keyword arguments passed to ``add_url_rule``
 
@@ -130,6 +135,10 @@ class Via(RoutesImporter):
             raise ImproperlyConfigured(
                 'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
+
+        # Routes name can be configured by setting VIA_ROUTES_NAME
+        if not routes_name:
+            routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
 
         # Get the routes
         routes = self.include(routes_module, routes_name)

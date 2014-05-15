@@ -62,6 +62,22 @@ for example::
     via = Via()
     via.init_app(app, routes_name='urls')
 
+You can also make this setting permanent by using the ``VIA_ROUTES_NAME``
+configuration variable::
+
+    app = Flask(__name__)
+    app.config['VIA_ROUTES_MODULE'] = 'yourapp.routes'
+    app.config['VIA_ROUTES_NAME'] = 'urls'
+
+    via = Via()
+    via.init_app(app)
+
+.. note::
+
+    If you set ``VIA_ROUTES_NAME`` overriding this using ``routes_name`` is
+    still possible however this does not propagate over any routes which are
+    included.
+
 Application Example
 -------------------
 
