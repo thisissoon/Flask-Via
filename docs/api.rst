@@ -6,6 +6,12 @@ API
     :private-members:
     :show-inheritance:
 
+.. automodule:: flask_via.exceptions
+    :members:
+    :private-members:
+    :special-members: __init__
+    :show-inheritance:
+
 .. automodule:: flask_via.routers
     :members:
     :private-members:

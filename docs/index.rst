@@ -7,6 +7,7 @@ Usage Documentation
    :maxdepth: 3
 
    quickstart
+   configuration
    route_discovery
    routers
    include

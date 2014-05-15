@@ -5,6 +5,10 @@ Next Release
 ------------
 * Feature: Blueprint router can now take a blueprint instance
 * Imroved: Test Suite now uses PyTest
+* Improved: ``ImproperlyConfigured`` now raised if routes module is not defined
+  in either ``init_app`` or in application configuration via
+  ``VIA_ROUTES_MODULE``
+* Feature: Added support for ``VIA_ROUTES_NAME`` to set a common routes name
 
 2014.05.08
 ----------
