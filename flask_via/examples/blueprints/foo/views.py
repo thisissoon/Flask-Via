@@ -10,5 +10,5 @@ A blueprint ``Flask-Via`` example Flask application.
 from flask import render_template
 
 
-def foo():
-    return render_template('foo.html')
+def baz():
+    return render_template('baz.html')

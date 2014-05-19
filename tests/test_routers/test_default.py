@@ -8,62 +8,83 @@ Unit tests for Flask specific router classes.
 """
 
 import mock
-import unittest
 
-from flask import Blueprint
+from flask import Blueprint, url_for
+from flask.views import MethodView
 from flask_via.routers import default
+from tests import ViaTestCase
 
 
-class TestFlaskBasicRouter(unittest.TestCase):
+class TestFlaskBasicRouter(ViaTestCase):
 
     def setUp(self):
-        self.app = mock.MagicMock()
+        self.view = mock.MagicMock(
+            __name__='foo',
+            methods=['GET', ],
+            return_value='foo')
 
     def test_add_to_app(self):
-        view = mock.MagicMock()
-        route = default.Basic('/', view, endpoint='foo')
+        route = default.Basic('/', self.view, endpoint='foo')
         route.add_to_app(self.app)
 
-        self.app.add_url_rule.assert_called_once_with('/', 'foo', view)
+        self.assertEqual(url_for('foo'), '/')
+        self.assertEqual(self.client.get('/').data, 'foo')
 
     def test_url_prefix(self):
-        view = mock.MagicMock()
-        route = default.Basic('/', view, endpoint='foo')
+        route = default.Basic('/', self.view, endpoint='foo')
         route.add_to_app(self.app, url_prefix='/foo')
 
-        self.app.add_url_rule.assert_called_once_with('/foo/', 'foo', view)
+        self.assertEqual(url_for('foo'), '/foo/')
+        self.assertEqual(self.client.get('/foo/').data, 'foo')
+
+    def test_endpoint_prefix(self):
+        route = default.Basic('/', self.view, endpoint='foo')
+        route.add_to_app(self.app, endpoint='bar.')
+
+        self.assertEqual(url_for('bar.foo'), '/')
+        self.assertEqual(self.client.get('/').data, 'foo')
+
+    def test_default_endpoint_name(self):
+        route = default.Basic('/', self.view)
+        route.add_to_app(self.app, endpoint='bar.')
+
+        self.assertEqual(url_for('bar.foo'), '/')
+        self.assertEqual(self.client.get('/').data, 'foo')
 
 
-class TestFlaskPluggableRouter(unittest.TestCase):
+class TestFlaskPluggableRouter(ViaTestCase):
 
     def setUp(self):
-        self.app = mock.MagicMock()
+        class View(MethodView):
+
+            def get(self):
+                return 'foo'
+
+        self.View = View
 
     def test_add_to_app(self):
-        view = mock.MagicMock()
-        route = default.Pluggable('/', view_func=view, endpoint='foo')
+        route = default.Pluggable('/', self.View, 'foo')
         route.add_to_app(self.app)
 
-        self.app.add_url_rule.assert_called_once_with(
-            '/',
-            view_func=view,
-            endpoint='foo')
+        self.assertEqual(url_for('foo'), '/')
+        self.assertEqual(self.client.get('/').data, 'foo')
 
     def test_url_prefix(self):
-        view = mock.MagicMock()
-        route = default.Pluggable('/', view_func=view, endpoint='foo')
+        route = default.Pluggable('/', self.View, 'foo')
         route.add_to_app(self.app, url_prefix='/foo')
 
-        self.app.add_url_rule.assert_called_once_with(
-            '/foo/',
-            view_func=view,
-            endpoint='foo')
+        self.assertEqual(url_for('foo'), '/foo/')
+        self.assertEqual(self.client.get('/foo/').data, 'foo')
+
+    def test_endpoint_prefix(self):
+        route = default.Pluggable('/', self.View, endpoint='foo')
+        route.add_to_app(self.app, endpoint='bar.')
+
+        self.assertEqual(url_for('bar.foo'), '/')
+        self.assertEqual(self.client.get('/').data, 'foo')
 
 
-class TestBlueprintRouter(unittest.TestCase):
-
-    def setUp(self):
-        self.app = mock.MagicMock()
+class TestBlueprintRouter(ViaTestCase):
 
     def test_routes_module_path(self):
         route = default.Blueprint('foo', 'foo.bar')
@@ -91,21 +112,37 @@ class TestBlueprintRouter(unittest.TestCase):
 
         self.assertEqual(blueprint.url_prefix, '/foo')
 
-    @mock.patch('flask_via.routers.default.Blueprint.include')
-    @mock.patch('flask_via.routers.default.Blueprint.blueprint')
-    def test_add_to_app(self, _blueprint, _include):
-        blueprint = mock.MagicMock()
+    @mock.patch('flask.helpers.get_root_path')
+    def test_endpoint_prefix(self, _get_root_path):
+        route = default.Blueprint('bar', 'foo.bar')
+        blueprint = route.blueprint(endpoint='foo.')
+
+        self.assertEqual(blueprint.name, 'foo.bar')
+
+    @mock.patch('flask_via.import_module')
+    def test_add_to_app(self, _import_module):
+        foo = mock.MagicMock(
+            __name__='foo',
+            methods=['GET', ],
+            return_value='foo')
+        bar = mock.MagicMock(
+            __name__='bar',
+            methods=['GET', ],
+            return_value='bar')
+
         routes = [
-            mock.MagicMock(),
-            mock.MagicMock()
+            default.Basic('/foo', foo, 'foo'),
+            default.Basic('/bar', bar, 'bar'),
         ]
-        _include.return_value = routes
-        _blueprint.return_value = blueprint
+
+        _import_module.side_effect = [
+            mock.MagicMock(routes=routes),
+        ]
 
         route = default.Blueprint('foo', 'foo.bar')
-        route.add_to_app(self.app)
 
-        for instance in routes:
-            instance.add_to_app.assert_called_once_with(blueprint)
+        with mock.patch('flask.helpers.pkgutil.get_loader'):
+            route.add_to_app(self.app)
 
-        self.app.register_blueprint.assert_called_once_with(blueprint)
+        self.assertEqual(url_for('foo.foo'), '/foo')
+        self.assertEqual(url_for('foo.bar'), '/bar')

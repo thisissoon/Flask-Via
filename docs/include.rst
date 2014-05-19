@@ -19,6 +19,7 @@ somewhere else in your application.
     * ``routes_name``: (Optional) If you have not called the list of routes in
       the moduke ``routes`` you can set that here, for example ``urls``.
     * ``url_prefix``: (optional) Add a url prefix to all routes included
+    * ``endpoint``: (optional) Add a endpoint prefix to all routes included
 
 Example
 ~~~~~~~
@@ -80,6 +81,31 @@ top level ``routes.py`` now looks like this::
 
 This will result in the url to the view becoming ``/foo/bar`` instead of
 ``/bar``.
+
+Endpoints
+~~~~~~~~~
+
+The :py:class:`flask_via.routers.Include` router also allows you to add
+endpoint prefixes to your included routes, much like blueprints. This is
+supported by:
+
+* :py:class:`flask_via.routers.default.Basic`
+* :py:class:`flask_via.routers.default.Pluggable`
+* :py:class:`flask_via.routers.default.Blueprint`
+
+Example
+^^^^^^^
+
+We will assume the same application structure as we have in the previous
+example applications. The top level ``routes.py`` can be altered as followes::
+
+    from flask.ext.via.routers import Include
+
+    routes = [
+        Include('foo.bar.routes', url_prefix='/foo', endpoint='foo')
+    ]
+
+We can now call ``url_for`` with ``foo.bar`` which would generate ``/foo/bar``.
 
 Blueprint Router
 ----------------
@@ -203,7 +229,11 @@ blueprint examples, except our top level ``routes.py`` now looks like this::
     from flask.ext.via.routers import default, Include
 
     routes = [
-        Include('foo.routes', routes_name='api', url_prefix='/api/v1')
+        Include(
+            'foo.routes',
+            routes_name='api',
+            url_prefix='/api/v1',
+            endpoint='api.v1')
     ]
 
     api = [
@@ -232,3 +262,10 @@ would be accessed on the following urls:
 Hopefully you can see from this that :py:class:`flask_via.routers.Include`
 coupled with :py:class:`flask_via.routers.default.Blueprint` can offer some
 potentially powerful routing options for your application.
+
+You will also notice we used the ``endpoint`` keyword agument in the Include.
+This means our urls can also be reversed using ``url_for``, for example::
+
+* ``url_for('api.v1.bar.bar')`` would return: ``/api/v1/bar/bar``
+* ``url_for('api.v1.baz.bar')`` would return: ``/api/v1/baz/bar``
+* ``url_for('api.v1.fap.bar')`` would return: ``/api/v1/fap/bar``

@@ -23,8 +23,8 @@ class FooView(MethodView):
 app = Flask(__name__)
 
 routes = [
-    Pluggable('/foo', view_func=FooView.as_view('foo')),
-    Pluggable('/foo/<bar>', view_func=FooView.as_view('foo2')),
+    Pluggable('/foo', FooView, 'foo'),
+    Pluggable('/foo/<bar>', FooView, 'foo2'),
 ]
 
 via = Via()

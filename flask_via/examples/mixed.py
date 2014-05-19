@@ -47,12 +47,13 @@ app = Flask(__name__)
 api = restful.Api(app)
 
 routes = [
+    # Basic Views
     Basic('/basic', foo),
     Basic('/basic/<bar>', foo, endpoint='foo.basic'),
-    Pluggable('/pluggable', view_func=FooView.as_view('foo.pluggable')),
-    Pluggable(
-        '/pluggable/<bar>',
-        view_func=FooView.as_view('foobar.pluggable')),
+    # Pluggable Viewa
+    Pluggable('/pluggable', FooView, 'foo.pluggable'),
+    Pluggable('/pluggable/<bar>', FooView, 'foobar.pluggable'),
+    # Flask Restful Resource Views
     Resource('/resource', FooResource, 'foo.resource'),
     Resource('/resource/<bar>', FooResource, endpoint='foobar.resource')
 ]

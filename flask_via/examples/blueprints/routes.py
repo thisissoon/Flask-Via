@@ -24,13 +24,14 @@ routes = [
     Include(
         'flask_via.examples.blueprints.routes',
         routes_name='urls',
-        url_prefix='/bar'
+        url_prefix='/bar',
+        endpoint='bar'
     )
 ]
 
 urls = [
     default.Blueprint(
-        'foo.bar',
+        'foo',
         'flask_via.examples.blueprints.foo',
         url_prefix='/foo',
         template_folder='templates'
