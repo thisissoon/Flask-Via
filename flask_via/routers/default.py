@@ -31,7 +31,7 @@ class Functional(BaseRouter):
     namely functionally based views which would normally use the ``@route``
     decorator.
 
-    .. versionadded:: #NEXTRELEASE
+    .. versionadded:: 2014.05.19
 
     Example
     -------
@@ -76,7 +76,7 @@ class Functional(BaseRouter):
 
             * ``url_prefix`` can now be prefixed if present in kwargs
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * ``endpoint`` can now be prefixed if present in kwargs
 
@@ -108,7 +108,7 @@ class Basic(Functional):
     :class:`.Functional`.
 
     .. versionadded:: 2014.05.06
-    .. deprecated:: #NEXTRELEASE
+    .. deprecated:: 2014.05.19
     """
 
 
@@ -142,7 +142,7 @@ class Pluggable(BaseRouter):
     def __init__(self, url, view, endpoint, **kwargs):
         """ Pluggable router constructor, stores passed arguments on instance.
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * Added ``view`` argument
             * Added ``endpoint`` argument
@@ -170,7 +170,7 @@ class Pluggable(BaseRouter):
     def add_to_app(self, app, **kwargs):
         """ Adds the url route to the flask application object.
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             Updated ``add_url_rule`` to support endpoint prefixing and support
             new way of defining Pluggable views
@@ -201,7 +201,7 @@ class Pluggable(BaseRouter):
 
 class Blueprint(BaseRouter, RoutesImporter):
     """ Registers a flask blueprint and registers routes to that blueprint,
-    similar to :py:class:`flask_via.routes.Include`.
+    similar to :py:class:`flask_via.routers.Include`.
 
     .. versionadded:: 2014.05.06
 
@@ -247,7 +247,7 @@ class Blueprint(BaseRouter, RoutesImporter):
             url_defaults=None):
         """ Constructor for blueprint router.
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * Replaced ``name`` with ``name_or_instance`` argument which allows
               the router to take an already instantiated blueprint instance.
@@ -321,7 +321,7 @@ class Blueprint(BaseRouter, RoutesImporter):
         """ Returns a Flask Blueprint instance, either one provided or created
         here.
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * Renamed method from ``create_blueprint`` to ``blueprint``
             * If ``instance`` attribute exists, use this is as the blueprint

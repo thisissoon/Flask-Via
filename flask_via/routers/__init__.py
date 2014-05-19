@@ -81,7 +81,7 @@ class Include(BaseRouter, RoutesImporter):
 
             * ``url_prefix`` argument added
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * ``routes_name`` keyword argument default value set to ``None``
             * ``endpoint`` keyword argument added
@@ -117,7 +117,7 @@ class Include(BaseRouter, RoutesImporter):
 
             * ``url_prefix`` now injected into kwargs when loading in routes
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * ``endpoint`` now injects into kwargs when loading in routes
 

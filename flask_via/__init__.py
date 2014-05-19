@@ -96,7 +96,7 @@ class Via(RoutesImporter):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
 
-        .. versionchanged:: #NEXTRELEASE
+        .. versionchanged:: 2014.05.19
 
             * Replace ``NotImplementedError`` with ``ImproperlyConfigured``
             * ``routes_name`` keyword argument default value set to ``None``

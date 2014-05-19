@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Next Release
-------------
+2014.05.19
+----------
 * Feature: ``Include`` now supports ``endpoint`` prefixing
 * Feature: Blueprint router can now take a blueprint instance
 * Feature: Added support for ``VIA_ROUTES_NAME`` to set a common routes name
