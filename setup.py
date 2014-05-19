@@ -80,7 +80,7 @@ DEVELOP_REQUIREMENTS = read_requirements('REQS.DEVELOP.txt') \
 
 # Include the Change Log on PyPi
 
-long_description = open('README.rst').read() + '\n\r.. include:: CHANGELOG.rst'
+long_description = open('README.rst').read()
 
 # Setup
 

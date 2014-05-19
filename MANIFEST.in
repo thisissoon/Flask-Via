@@ -1,2 +1,2 @@
-include setup.py README.rst MANIFEST.in CHANGELOG.rst REQS_TEST.txt REQS_DEV.txt VERSION setup.cfg
+include setup.py README.rst MANIFEST.in CHANGELOG.rst REQS.txt REQS.TESTING.txt REQS.DEVELOP.txt VERSION setup.cfg
 global-exclude *~
