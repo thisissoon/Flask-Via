@@ -15,7 +15,7 @@ Example
 
     from flask import Flask
     from flask.ext.via import Via
-    from flask.ext.via.routers.default import Basic
+    from flask.ext.via.routers.default import Functional
 
     app = Flask(__name__)
 
@@ -23,8 +23,8 @@ Example
         return 'Foo View!'
 
     routes = [
-        Basic('/foo', foo),
-        Basic('/foo/<bar>', foo, endpoint='foo2'),
+        Functional('/foo', foo),
+        Functional('/foo/<bar>', foo, endpoint='foo2'),
     ]
 
     via = Via()

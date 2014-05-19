@@ -78,6 +78,10 @@ TESTING_REQUIREMENTS = read_requirements('REQS.TESTING.txt')
 DEVELOP_REQUIREMENTS = read_requirements('REQS.DEVELOP.txt') \
     + TESTING_REQUIREMENTS
 
+# Include the Change Log on PyPi
+
+long_description = open('README.rst').read() + '\n\r.. include:: CHANGELOG.rst'
+
 # Setup
 
 setup(
@@ -88,7 +92,7 @@ setup(
     url='http://flask-via.thisissoon.com',
     description='Flask-Via adds a cleaner method for defining routes '
                 'to your Flask views, inspired by Django urls.',
-    long_description=open('README.rst').read(),
+    long_description=long_description,
     packages=find_packages(
         exclude=[
             'tests'
