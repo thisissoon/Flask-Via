@@ -13,7 +13,7 @@ import unittest
 
 from flask import url_for
 from flask_via.routers import BaseRouter, Include
-from flask_via.routers.default import Basic
+from flask_via.routers.default import Functional
 from tests import ViaTestCase
 
 
@@ -42,8 +42,8 @@ class TestIncludeRouter(ViaTestCase):
             methods=['GET', ],
             return_value='bar')
         self.routes = [
-            Basic('/foo', self.foo_view, 'foo'),
-            Basic('/bar', self.bar_view, 'bar'),
+            Functional('/foo', self.foo_view, 'foo'),
+            Functional('/bar', self.bar_view, 'bar'),
         ]
 
     def test_init(self):

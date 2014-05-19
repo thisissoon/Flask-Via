@@ -26,23 +26,23 @@ from flask_via import RoutesImporter
 from flask_via.routers import BaseRouter
 
 
-class Basic(BaseRouter):
+class Functional(BaseRouter):
     """ A basic Flask router, used for the most basic form of flask routes,
     namely functionally based views which would normally use the ``@route``
     decorator.
 
-    .. versionadded:: 2014.05.06
+    .. versionadded:: #NEXTRELEASE
 
     Example
     -------
     .. sourcecode:: python
 
-        from flask.ext.via.routes import flask
+        from flask.ext.via.routes import default
         from yourapp.views import foo_view, bar_view
 
         routes = [
-            Basic('/foo', 'foo', foo_view),
-            Basic('/bar', 'bar', bar_view),
+            default.Functional('/foo', 'foo', foo_view),
+            default.Functional('/bar', 'bar', bar_view),
         ]
     """
 
@@ -101,6 +101,15 @@ class Basic(BaseRouter):
             self.endpoint = kwargs['endpoint'] + self.endpoint
 
         app.add_url_rule(self.url, self.endpoint, self.func)
+
+
+class Basic(Functional):
+    """ This is deprecated and will be removed in the next release. Please use
+    :class:`.Functional`.
+
+    .. versionadded:: 2014.05.06
+    .. deprecated:: #NEXTRELEASE
+    """
 
 
 class Pluggable(BaseRouter):

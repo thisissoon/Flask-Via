@@ -12,5 +12,5 @@ from flask.ext.via.routers import default
 
 
 routes = [
-    default.Basic('/', views.baz),
+    default.Functional('/', views.baz),
 ]

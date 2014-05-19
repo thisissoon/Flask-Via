@@ -456,12 +456,17 @@ a:hover tt {
     margin-bottom: 20px;
 }
 
-.versionadded {
-    padding: 20px;
+.versionadded, .deprecated {
+    padding: 10px;
     margin-bottom: 20px;
 }
 
-.versionadded p {
+.deprecated {
+    background-color: #F7ADA0;
+    border: 1px solid #E3563D;
+}
+
+.versionadded p, .deprecated  p {
     margin-bottom:0px;
 }
 

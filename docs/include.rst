@@ -48,7 +48,7 @@ In the ``foo.routes`` we would have::
     from foo.bar.views import some_view
 
     routes = [
-        default.Basic('/bar', some_view)
+        default.Functional('/bar', some_view)
     ]
 
 You can see this in action with the
@@ -63,7 +63,7 @@ The :py:class:`flask_via.routers.Include` class also allows you to add a
 The following routers support the ``url_prefix`` being passed to their
 ``add_to_app`` methods:
 
-* :py:class:`flask_via.routers.default.Basic`
+* :py:class:`flask_via.routers.default.Functional`
 * :py:class:`flask_via.routers.default.Pluggable`
 * :py:class:`flask_via.routers.default.Blueprint`
 
@@ -89,7 +89,7 @@ The :py:class:`flask_via.routers.Include` router also allows you to add
 endpoint prefixes to your included routes, much like blueprints. This is
 supported by:
 
-* :py:class:`flask_via.routers.default.Basic`
+* :py:class:`flask_via.routers.default.Functional`
 * :py:class:`flask_via.routers.default.Pluggable`
 * :py:class:`flask_via.routers.default.Blueprint`
 
@@ -179,7 +179,7 @@ In our blueprints views we can define routes as normal::
     from foo.bar.views import some_view
 
     routes = [
-        default.Basic('/bar', some_view)
+        default.Functional('/bar', some_view)
     ]
 
 Instance Example
@@ -198,7 +198,7 @@ In the above example we would alter the contents of
     blueprint = Blueprint('bar', 'foo.bar', template_folder='templates')
 
     routes = [
-        default.Basic('/bar', some_view)
+        default.Functional('/bar', some_view)
     ]
 
 And now in our ``/path/to/foo/routes.py`` we would import the blueprint and

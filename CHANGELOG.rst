@@ -6,6 +6,7 @@ Next Release
 * Feature: ``Include`` now supports ``endpoint`` prefixing
 * Feature: Blueprint router can now take a blueprint instance
 * Feature: Added support for ``VIA_ROUTES_NAME`` to set a common routes name
+* Deprecated: ``Basic`` Router in favour of the ``Functional`` router
 * Improved: Test Suite now uses PyTest
 * Improved: ``ImproperlyConfigured`` now raised if routes module is not defined
   in either ``init_app`` or in application configuration via

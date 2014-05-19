@@ -10,11 +10,11 @@ Flask Routers
 These routers are designed to work with standard flask functional and class
 based pluggable views.
 
-Basic Router
-~~~~~~~~~~~~
+Functional Router
+~~~~~~~~~~~~~~~~~
 
-The :py:class:`flask_via.routers.default.Basic` router handles basic functional
-based view routing.
+The :py:class:`flask_via.routers.default.Functional` router handles basic
+functional based view routing.
 
 **Arguments**:
     * ``url``: The url for this route, e.g: ``/foo``
@@ -29,14 +29,14 @@ Example
 
 .. sourcecode:: python
 
-    from flask.ext.via.routers.default import Basic
+    from flask.ext.via.routers.default import Functional
 
     def foo(bar=None):
         return 'foo'
 
     routes = [
-        Basic('/', foo),
-        Basic('/<bar>', foo, endpoint='foobar'),
+        Functional('/', foo),
+        Functional('/<bar>', foo, endpoint='foobar'),
     ]
 
 Pluggable Router

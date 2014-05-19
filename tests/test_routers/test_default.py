@@ -15,7 +15,7 @@ from flask_via.routers import default
 from tests import ViaTestCase
 
 
-class TestFlaskBasicRouter(ViaTestCase):
+class TestFlaskFunctionalRouter(ViaTestCase):
 
     def setUp(self):
         self.view = mock.MagicMock(
@@ -24,28 +24,28 @@ class TestFlaskBasicRouter(ViaTestCase):
             return_value='foo')
 
     def test_add_to_app(self):
-        route = default.Basic('/', self.view, endpoint='foo')
+        route = default.Functional('/', self.view, endpoint='foo')
         route.add_to_app(self.app)
 
         self.assertEqual(url_for('foo'), '/')
         self.assertEqual(self.client.get('/').data, b'foo')
 
     def test_url_prefix(self):
-        route = default.Basic('/', self.view, endpoint='foo')
+        route = default.Functional('/', self.view, endpoint='foo')
         route.add_to_app(self.app, url_prefix='/foo')
 
         self.assertEqual(url_for('foo'), '/foo/')
         self.assertEqual(self.client.get('/foo/').data, b'foo')
 
     def test_endpoint_prefix(self):
-        route = default.Basic('/', self.view, endpoint='foo')
+        route = default.Functional('/', self.view, endpoint='foo')
         route.add_to_app(self.app, endpoint='bar.')
 
         self.assertEqual(url_for('bar.foo'), '/')
         self.assertEqual(self.client.get('/').data, b'foo')
 
     def test_default_endpoint_name(self):
-        route = default.Basic('/', self.view)
+        route = default.Functional('/', self.view)
         route.add_to_app(self.app, endpoint='bar.')
 
         self.assertEqual(url_for('bar.foo'), '/')
@@ -131,8 +131,8 @@ class TestBlueprintRouter(ViaTestCase):
             return_value='bar')
 
         routes = [
-            default.Basic('/foo', foo, 'foo'),
-            default.Basic('/bar', bar, 'bar'),
+            default.Functional('/foo', foo, 'foo'),
+            default.Functional('/bar', bar, 'bar'),
         ]
 
         _import_module.side_effect = [

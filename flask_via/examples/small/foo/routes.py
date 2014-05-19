@@ -11,12 +11,12 @@ from flask_via.examples.small.foo import views
 from flask.ext.via.routers import default, Include
 
 routes = [
-    default.Basic('/foo', views.foo),
+    default.Functional('/foo', views.foo),
     Include('flask_via.examples.small.foo.routes',
             routes_name='urls',
             url_prefix='/bar')
 ]
 
 urls = [
-    default.Basic('/bar', views.foo),
+    default.Functional('/bar', views.foo),
 ]

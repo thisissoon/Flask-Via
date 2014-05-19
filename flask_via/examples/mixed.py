@@ -11,7 +11,7 @@ from flask import Flask
 from flask.views import MethodView
 from flask.ext import restful
 from flask.ext.via import Via
-from flask.ext.via.routers.default import Basic, Pluggable
+from flask.ext.via.routers.default import Functional, Pluggable
 from flask.ext.via.routers.restful import Resource
 
 
@@ -36,7 +36,7 @@ class FooResource(restful.Resource):
 
 
 def foo(bar=None):
-    rtn = 'Basic Foo View'
+    rtn = 'Functional Foo View'
     if bar:
         rtn += ' bar = {0}'.format(bar)
 
@@ -47,9 +47,9 @@ app = Flask(__name__)
 api = restful.Api(app)
 
 routes = [
-    # Basic Views
-    Basic('/basic', foo),
-    Basic('/basic/<bar>', foo, endpoint='foo.basic'),
+    # Functional Views
+    Functional('/basic', foo),
+    Functional('/basic/<bar>', foo, endpoint='foo.basic'),
     # Pluggable Viewa
     Pluggable('/pluggable', FooView, 'foo.pluggable'),
     Pluggable('/pluggable/<bar>', FooView, 'foobar.pluggable'),

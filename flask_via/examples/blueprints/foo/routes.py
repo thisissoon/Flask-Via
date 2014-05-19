@@ -11,5 +11,5 @@ from flask_via.examples.blueprints.foo import views
 from flask.ext.via.routers import default
 
 routes = [
-    default.Basic('/baz', views.baz),
+    default.Functional('/baz', views.baz),
 ]
