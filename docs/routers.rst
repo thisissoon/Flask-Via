@@ -47,9 +47,11 @@ using Flasks pluggable views.
 
 **Arguments**:
     * ``url``: The url for this route, e.g: ``/foo``
+    * ``class``: The Flask Pluggable View Class
+    * ``name``: The name of the view, aka: endpoint
 
 **Keyword Arguments**:
-    * ``view_func``: View function
+    * ``**kwargs``: Arbitrary keyword arguments, for example ``methods``
 
 Example
 ^^^^^^^
@@ -65,8 +67,8 @@ Example
             return 'foo'
 
     routes = [
-        Plugganle('/', view_func=FooView.as_view('foo')),
-        Plugganle('/<bar>', view_func=FooView.as_view('foobar')),
+        Plugganle('/', FooView, 'foo'),
+        Plugganle('/<bar>', FooView, 'foobar'),
     ]
 
 ``Flask-Restful`` Routers

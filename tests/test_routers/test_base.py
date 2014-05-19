@@ -7,10 +7,14 @@ tests.test_routers
 Unit tests for common router classes and utilities.
 """
 
+import copy
 import mock
 import unittest
 
+from flask import url_for
 from flask_via.routers import BaseRouter, Include
+from flask_via.routers.default import Basic
+from tests import ViaTestCase
 
 
 class TestBaseRouter(unittest.TestCase):
@@ -26,10 +30,21 @@ class TestBaseRouter(unittest.TestCase):
         self.assertTrue(str(e.exception), '__init__ must be overridden')
 
 
-class TestIncludeRouter(unittest.TestCase):
+class TestIncludeRouter(ViaTestCase):
 
     def setUp(self):
-        self.app = mock.MagicMock()
+        self.foo_view = mock.MagicMock(
+            __name__='foo',
+            methods=['GET', ],
+            return_value='foo')
+        self.bar_view = mock.MagicMock(
+            __name__='bar',
+            methods=['GET', ],
+            return_value='bar')
+        self.routes = [
+            Basic('/foo', self.foo_view, 'foo'),
+            Basic('/bar', self.bar_view, 'bar'),
+        ]
 
     def test_init(self):
         route = Include('foo.bar', routes_name='urls')
@@ -38,44 +53,54 @@ class TestIncludeRouter(unittest.TestCase):
         self.assertEqual(route.routes_name, 'urls')
 
     @mock.patch('flask_via.import_module')
-    def test_add_to_app(self, import_module):
-        routes = [
-            mock.MagicMock(),
-            mock.MagicMock()
-        ]
-        import_module.return_value = mock.MagicMock(urls=routes)
+    def test_add_to_app(self, _import_module):
+        _import_module.return_value = mock.MagicMock(urls=self.routes)
 
         route = Include('foo.bar', routes_name='urls')
         route.add_to_app(self.app)
 
-        for instance in routes:
-            instance.add_to_app.assert_called_once_with(self.app)
+        self.assertEqual(url_for('foo'), '/foo')
+        self.assertEqual(url_for('bar'), '/bar')
 
     @mock.patch('flask_via.import_module')
-    def test_url_prefix(self, import_module):
-        self.app.config.get.return_value = 'routes'
-        route1 = mock.MagicMock()
-        route2 = mock.MagicMock()
-        urls = [
-            route1,
-            route2,
-            Include('other.urls', url_prefix='/bar')
-        ]
-        routes = list(urls)
-        routes.pop()
+    def test_url_prefix(self, _import_module):
+        routes1 = copy.deepcopy(self.routes)
+        routes1.append(Include(
+            'foo.bar',
+            url_prefix='/prefix2',
+            endpoint='prefix2'))
+        routes2 = copy.deepcopy(self.routes)
 
-        import_module.side_effect = [
-            mock.MagicMock(urls=urls),
-            mock.MagicMock(routes=routes)
+        _import_module.side_effect = [
+            mock.MagicMock(routes=routes1),
+            mock.MagicMock(routes=routes2)
         ]
 
-        route = Include('foo.bar', routes_name='urls', url_prefix='/foo')
-        route.add_to_app(self.app)
+        include = Include('foo.bar', url_prefix='/prefix1')
+        include.add_to_app(self.app)
 
-        calls = [
-            mock.call(self.app, url_prefix='/foo'),
-            mock.call(self.app, url_prefix='/foo/bar')
+        self.assertEqual(url_for('foo'), '/prefix1/foo')
+        self.assertEqual(url_for('bar'), '/prefix1/bar')
+        self.assertEqual(url_for('prefix2.foo'), '/prefix1/prefix2/foo')
+        self.assertEqual(url_for('prefix2.bar'), '/prefix1/prefix2/bar')
+
+    @mock.patch('flask_via.import_module')
+    def test_endpoint_prefix(self, _import_module):
+        routes1 = copy.deepcopy(self.routes)
+        routes1.append(Include(
+            'foo.bar',
+            endpoint='endpoint2'))
+        routes2 = copy.deepcopy(self.routes)
+
+        _import_module.side_effect = [
+            mock.MagicMock(routes=routes1),
+            mock.MagicMock(routes=routes2)
         ]
 
-        for instance in routes:
-            instance.add_to_app.assert_has_calls(calls)
+        include = Include('foo.bar', endpoint='endpoint1')
+        include.add_to_app(self.app)
+
+        self.assertEqual(url_for('endpoint1.foo'), '/foo')
+        self.assertEqual(url_for('endpoint1.bar'), '/bar')
+        self.assertEqual(url_for('endpoint1.endpoint2.foo'), '/foo')
+        self.assertEqual(url_for('endpoint1.endpoint2.bar'), '/bar')
