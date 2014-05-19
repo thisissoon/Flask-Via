@@ -28,28 +28,28 @@ class TestFlaskBasicRouter(ViaTestCase):
         route.add_to_app(self.app)
 
         self.assertEqual(url_for('foo'), '/')
-        self.assertEqual(self.client.get('/').data, 'foo')
+        self.assertEqual(self.client.get('/').data, b'foo')
 
     def test_url_prefix(self):
         route = default.Basic('/', self.view, endpoint='foo')
         route.add_to_app(self.app, url_prefix='/foo')
 
         self.assertEqual(url_for('foo'), '/foo/')
-        self.assertEqual(self.client.get('/foo/').data, 'foo')
+        self.assertEqual(self.client.get('/foo/').data, b'foo')
 
     def test_endpoint_prefix(self):
         route = default.Basic('/', self.view, endpoint='foo')
         route.add_to_app(self.app, endpoint='bar.')
 
         self.assertEqual(url_for('bar.foo'), '/')
-        self.assertEqual(self.client.get('/').data, 'foo')
+        self.assertEqual(self.client.get('/').data, b'foo')
 
     def test_default_endpoint_name(self):
         route = default.Basic('/', self.view)
         route.add_to_app(self.app, endpoint='bar.')
 
         self.assertEqual(url_for('bar.foo'), '/')
-        self.assertEqual(self.client.get('/').data, 'foo')
+        self.assertEqual(self.client.get('/').data, b'foo')
 
 
 class TestFlaskPluggableRouter(ViaTestCase):
@@ -67,21 +67,21 @@ class TestFlaskPluggableRouter(ViaTestCase):
         route.add_to_app(self.app)
 
         self.assertEqual(url_for('foo'), '/')
-        self.assertEqual(self.client.get('/').data, 'foo')
+        self.assertEqual(self.client.get('/').data, b'foo')
 
     def test_url_prefix(self):
         route = default.Pluggable('/', self.View, 'foo')
         route.add_to_app(self.app, url_prefix='/foo')
 
         self.assertEqual(url_for('foo'), '/foo/')
-        self.assertEqual(self.client.get('/foo/').data, 'foo')
+        self.assertEqual(self.client.get('/foo/').data, b'foo')
 
     def test_endpoint_prefix(self):
         route = default.Pluggable('/', self.View, endpoint='foo')
         route.add_to_app(self.app, endpoint='bar.')
 
         self.assertEqual(url_for('bar.foo'), '/')
-        self.assertEqual(self.client.get('/').data, 'foo')
+        self.assertEqual(self.client.get('/').data, b'foo')
 
 
 class TestBlueprintRouter(ViaTestCase):
