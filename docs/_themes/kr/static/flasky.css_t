@@ -451,19 +451,27 @@ a:hover tt {
 
 /* version */
 .versionadded, .versionchanged {
-    background-color: #D1EDFF;
-    border: 1px solid #83CEFC;
     margin-bottom: 20px;
+    background: #D1EDFF;
+    margin: 20px -30px;
+    border-top: 1px solid #83CEFC;
+    border-bottom: 1px solid #83CEFC;
+}
+
+.versionadded li p, .versionchanged li p {
+    margin:0px;
 }
 
 .versionadded, .deprecated {
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
     margin-bottom: 20px;
 }
 
 .deprecated {
     background-color: #F7ADA0;
-    border: 1px solid #E3563D;
+    border-top: 1px solid #E3563D;
+    border-bottom: 1px solid #E3563D;
+    margin: 20px -30px;
 }
 
 .versionadded p, .deprecated  p {
@@ -471,6 +479,10 @@ a:hover tt {
 }
 
 .versionmodified {
+    font-family: 'Nixie One', 'Garamond', 'Georgia', serif;;
+    font-size: 22px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
+    margin-bottom:10px;
+    display:block;
 }
