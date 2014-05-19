@@ -10,11 +10,11 @@ Flask Routers
 These routers are designed to work with standard flask functional and class
 based pluggable views.
 
-Basic Router
-~~~~~~~~~~~~
+Functional Router
+~~~~~~~~~~~~~~~~~
 
-The :py:class:`flask_via.routers.default.Basic` router handles basic functional
-based view routing.
+The :py:class:`flask_via.routers.default.Functional` router handles basic
+functional based view routing.
 
 **Arguments**:
     * ``url``: The url for this route, e.g: ``/foo``
@@ -29,14 +29,14 @@ Example
 
 .. sourcecode:: python
 
-    from flask.ext.via.routers.default import Basic
+    from flask.ext.via.routers.default import Functional
 
     def foo(bar=None):
         return 'foo'
 
     routes = [
-        Basic('/', foo),
-        Basic('/<bar>', foo, endpoint='foobar'),
+        Functional('/', foo),
+        Functional('/<bar>', foo, endpoint='foobar'),
     ]
 
 Pluggable Router
@@ -47,9 +47,11 @@ using Flasks pluggable views.
 
 **Arguments**:
     * ``url``: The url for this route, e.g: ``/foo``
+    * ``class``: The Flask Pluggable View Class
+    * ``name``: The name of the view, aka: endpoint
 
 **Keyword Arguments**:
-    * ``view_func``: View function
+    * ``**kwargs``: Arbitrary keyword arguments, for example ``methods``
 
 Example
 ^^^^^^^
@@ -65,8 +67,8 @@ Example
             return 'foo'
 
     routes = [
-        Plugganle('/', view_func=FooView.as_view('foo')),
-        Plugganle('/<bar>', view_func=FooView.as_view('foobar')),
+        Plugganle('/', FooView, 'foo'),
+        Plugganle('/<bar>', FooView, 'foobar'),
     ]
 
 ``Flask-Restful`` Routers

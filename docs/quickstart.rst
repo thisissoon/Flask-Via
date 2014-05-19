@@ -27,7 +27,7 @@ The following example code performs the above steps with key lines emphasised.
 
     from flask import Flask
     from flask.ext.via import Via
-    from flask.ext.via.routers.default import Basic
+    from flask.ext.via.routers.default import Functional
 
     app = Flask(__name__)
 
@@ -35,8 +35,8 @@ The following example code performs the above steps with key lines emphasised.
         return 'Foo View!'
 
     routes = [
-        Basic('/foo', foo),
-        Basic('/foo/<bar>', foo, endpoint='foo2'),
+        Functional('/foo', foo),
+        Functional('/foo/<bar>', foo, endpoint='foo2'),
     ]
 
     via = Via()
@@ -46,7 +46,7 @@ The following example code performs the above steps with key lines emphasised.
         app.run(debug=True)
 
 Lines ``10-13`` show how routes are defined in a list using the basic flask
-router class (:py:class:`flask_via.routers.default.Basic`).
+router class (:py:class:`flask_via.routers.default.Functional`).
 
 Line ``16`` shows how we ``Flask-Via`` looks for where routes are defined, this
 can be set as we have done above or using the ``VIA_ROUTES_MODULE`` application

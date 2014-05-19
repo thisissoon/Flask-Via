@@ -10,4 +10,5 @@ on GitHub.
 * `Basic Restful Example <https://github.com/thisissoon/Flask-Via/blob/master/flask_via/examples/restful.py>`_
 * `Basic Admin Example <https://github.com/thisissoon/Flask-Via/blob/master/flask_via/examples/admin.py>`_
 * `Small Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/small>`_
+* `Include Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/include>`_
 * `Blueprint Application Example <https://github.com/thisissoon/Flask-Via/tree/master/flask_via/examples/blueprints>`_

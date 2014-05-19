@@ -9,19 +9,19 @@ A simple ``Flask-Via`` example Flask application.
 
 from flask import Flask
 from flask.ext.via import Via
-from flask.ext.via.routers.default import Basic
+from flask.ext.via.routers.default import Functional
 
 
 app = Flask(__name__)
 
 
 def foo(bar=None):
-    return 'Basic Foo View!'
+    return 'Functional Foo View!'
 
 
 routes = [
-    Basic('/foo', foo),
-    Basic('/foo/<bar>', foo, endpoint='foo2'),
+    Functional('/foo', foo),
+    Functional('/foo/<bar>', foo, endpoint='foo2'),
 ]
 
 via = Via()

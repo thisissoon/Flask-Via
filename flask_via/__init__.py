@@ -5,12 +5,15 @@ flask_via
 ---------
 """
 
+from flask_via.exceptions import ImproperlyConfigured
 from importlib import import_module
 
 
 class RoutesImporter(object):
     """ Handles the import of routes module and obtaining a list of routes
     from that module as well as loading each route onto the application
+
+    .. versionadded:: 2014.05.06
     """
 
     def include(self, routes_module, routes_name):
@@ -28,6 +31,13 @@ class RoutesImporter(object):
         -------
         list
             List of routes in the module
+
+        Raises
+        ------
+        ImportError
+            If the route module cannot be imported
+        AttributeError
+            If routes do not exist in the moduke
         """
 
         # Import the moduke
@@ -49,6 +59,8 @@ class RoutesImporter(object):
 
 class Via(RoutesImporter):
     """ The core class which kicks off the whole registration processes.
+
+    .. versionadded:: 2014.05.06
 
     Example
     -------
@@ -79,10 +91,19 @@ class Via(RoutesImporter):
             self,
             app,
             routes_module=None,
-            routes_name='routes',
+            routes_name=None,
             **kwargs):
         """ Initialises Flask extension. Bootstraps the automatic route
         registration process.
+
+        .. versionchanged:: 2014.05.19
+
+            * Replace ``NotImplementedError`` with ``ImproperlyConfigured``
+            * ``routes_name`` keyword argument default value set to ``None``
+            * ``routes_name`` can now be configured using ``VIA_ROUTES_NAME``
+              app configuration variable. If ``routes_name`` keyword argument
+              and ``VIA_ROUTES_NAME`` are not configured the default will be
+              routes.
 
         Arguments
         ---------
@@ -96,18 +117,14 @@ class Via(RoutesImporter):
             to ``None``
         routes_name : str, optional
             Within the routes module look for a variable of this name,
-            defaults to ``routes``
+            defaults to ``None``
         \*\*kwargs
             Arbitrary keyword arguments passed to ``add_url_rule``
 
         Raises
         ------
-        ImportError
-            If the route module cannot be imported
-        AttributeError
-            If routes do not exist in the moduke
-        NotImplementedError
-            If ``VIA_ROUTE_MODULE`` is not configured in appluication config
+        ImproperlyConfigured
+            If ``VIA_ROUTES_MODULE`` is not configured in appluication config
             and ``route_module`` keyword argument has not been provided.
         """
 
@@ -115,9 +132,13 @@ class Via(RoutesImporter):
             routes_module = app.config.get('VIA_ROUTES_MODULE')
 
         if not routes_module:
-            raise NotImplementedError(
+            raise ImproperlyConfigured(
                 'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
+
+        # Routes name can be configured by setting VIA_ROUTES_NAME
+        if not routes_name:
+            routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
 
         # Get the routes
         routes = self.include(routes_module, routes_name)

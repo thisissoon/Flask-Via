@@ -10,12 +10,28 @@ allowing developers to much more cleanly manage routes across your
 application.
 """
 
+# Temporary patch for issue reported here:
+# https://groups.google.com/forum/#!topic/nose-users/fnJ-kAUbYHQ
+import multiprocessing  # noqa
 import os
 import sys
 
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
 
-extras_require = {}
+
+class PyTest(TestCommand):
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
 
 
 def read_requirements(filename):
@@ -36,37 +52,38 @@ def read_requirements(filename):
     """
 
     requirements = []
-    try:
-        with open(filename) as f:
-            for line in f.readlines():
-                line = line.strip()
-                if not line or line.startswith('#') or line == '':
-                    continue
-                requirements.append(line)
-    except IOError:
-        pass
+    with open(filename) as f:
+        for line in f.readlines():
+            if not line or line.startswith('#'):
+                continue
+            requirements.append(line.strip())
     return requirements
 
-# Get current directory where setup is running
+# Get current working directory
+
 try:
     SETUP_DIRNAME = os.path.dirname(__file__)
 except NameError:
     SETUP_DIRNAME = os.path.dirname(sys.argv[0])
 
-# Change directory
+# Change to current working directory
+
 if SETUP_DIRNAME != '':
     os.chdir(SETUP_DIRNAME)
 
-# Paths to requirement files
-REQUIREMENTS_FILE = os.path.join('REQS.txt')
-TEST_REQUIREMENTS_FILE = os.path.join('REQS_TEST.txt')
-DEV_REQUIREMENTS_FILE = os.path.join('REQS_DEV.txt')
+# Requirements
 
-# Development requirements
-extras_require['develop'] = read_requirements(DEV_REQUIREMENTS_FILE) + \
-    read_requirements(TEST_REQUIREMENTS_FILE)
+INSTALL_REQUIREMENTS = read_requirements('REQS.txt')
+TESTING_REQUIREMENTS = read_requirements('REQS.TESTING.txt')
+DEVELOP_REQUIREMENTS = read_requirements('REQS.DEVELOP.txt') \
+    + TESTING_REQUIREMENTS
 
-# Setup function
+# Include the Change Log on PyPi
+
+long_description = open('README.rst').read() + '\n\r.. include:: CHANGELOG.rst'
+
+# Setup
+
 setup(
     name='Flask-Via',
     version=open('VERSION').read().strip(),
@@ -75,7 +92,7 @@ setup(
     url='http://flask-via.thisissoon.com',
     description='Flask-Via adds a cleaner method for defining routes '
                 'to your Flask views, inspired by Django urls.',
-    long_description=open('README.rst').read(),
+    long_description=long_description,
     packages=find_packages(
         exclude=[
             'tests'
@@ -83,17 +100,20 @@ setup(
     include_package_data=True,
     zip_safe=False,
     # Dependencies
-    setup_requires=read_requirements(TEST_REQUIREMENTS_FILE),
-    install_requires=read_requirements(REQUIREMENTS_FILE),
-    extras_require=extras_require,
-    # Tests
-    tests_require=read_requirements(TEST_REQUIREMENTS_FILE),
-    test_suite='nose.collector',
+    install_requires=INSTALL_REQUIREMENTS,
+    extras_require={
+        'develop': DEVELOP_REQUIREMENTS
+    },
+    # Testing
+    tests_require=TESTING_REQUIREMENTS,
+    cmdclass={
+        'test': PyTest
+    },
     # Dependencies not hosted on PyPi
     dependency_links=[],
-    # Entry point functions
-    entry_points={},
     # Classifiers for Package Indexing
+    # Entry points, for example Flask-Script
+    entry_points={},
     classifiers=[
         'Framework :: Flask',
         'Environment :: Web Environment',

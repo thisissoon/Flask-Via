@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-flask_via.routers.flask
------------------------
+flask_via.routers.default
+-------------------------
 
 A set of flask specific router classes to be used when defining routes.
 
@@ -16,7 +16,7 @@ Example
 
     routes = [
         Basic('/foo', 'foo', foo_view),
-        Pluggable('/bar', view_func=BarView.as_view('bar')),
+        Pluggable('/bar', BarView, 'bar'),
     ]
 
 """
@@ -26,21 +26,23 @@ from flask_via import RoutesImporter
 from flask_via.routers import BaseRouter
 
 
-class Basic(BaseRouter):
+class Functional(BaseRouter):
     """ A basic Flask router, used for the most basic form of flask routes,
     namely functionally based views which would normally use the ``@route``
     decorator.
+
+    .. versionadded:: 2014.05.19
 
     Example
     -------
     .. sourcecode:: python
 
-        from flask.ext.via.routes import flask
+        from flask.ext.via.routes import default
         from yourapp.views import foo_view, bar_view
 
         routes = [
-            Basic('/foo', 'foo', foo_view),
-            Basic('/bar', 'bar', bar_view),
+            default.Functional('/foo', 'foo', foo_view),
+            default.Functional('/bar', 'bar', bar_view),
         ]
     """
 
@@ -70,6 +72,14 @@ class Basic(BaseRouter):
     def add_to_app(self, app, **kwargs):
         """ Adds the url route to the flask application object.mro
 
+        .. versionchanged:: 2014.05.08
+
+            * ``url_prefix`` can now be prefixed if present in kwargs
+
+        .. versionchanged:: 2014.05.19
+
+            * ``endpoint`` can now be prefixed if present in kwargs
+
         Arguments
         ---------
         app : flask.app.Flask
@@ -83,12 +93,30 @@ class Basic(BaseRouter):
         if 'url_prefix' in kwargs:
             self.url = kwargs['url_prefix'] + self.url
 
+        #: If this route was included a endpoint prefix may have been passed
+        #: to the route
+        if 'endpoint' in kwargs:
+            if self.endpoint is None:
+                self.endpoint = self.func.__name__
+            self.endpoint = kwargs['endpoint'] + self.endpoint
+
         app.add_url_rule(self.url, self.endpoint, self.func)
+
+
+class Basic(Functional):
+    """ This is deprecated and will be removed in the next release. Please use
+    :class:`.Functional`.
+
+    .. versionadded:: 2014.05.06
+    .. deprecated:: 2014.05.19
+    """
 
 
 class Pluggable(BaseRouter):
     """ Pluggable View router class, allows Flask pluggable view routes to be
     added to the flask application.
+
+    .. versionadded:: 2014.05.06
 
     Example
     -------
@@ -106,27 +134,46 @@ class Pluggable(BaseRouter):
                 return 'bar view'
 
         routes = [
-            flask.Pluggable('/', view_func=FooView.as_view('foo'))
-            flask.Pluggable('/', view_func=BarView.as_view('bar'))
+            flask.Pluggable('/', FooView, 'foo')
+            flask.Pluggable('/', BarView, 'bar')
         ]
     """
 
-    def __init__(self, url, **kwargs):
+    def __init__(self, url, view, endpoint, **kwargs):
         """ Pluggable router constructor, stores passed arguments on instance.
+
+        .. versionchanged:: 2014.05.19
+
+            * Added ``view`` argument
+            * Added ``endpoint`` argument
 
         Arguments
         ---------
         url : str
             The url to use for the route
-        \*\*kwargs
-            Arbitrary keyword arguments passed to ``add_url_rule``
+        view : class
+            The Flask pluggable view class, for example:
+            * :class:`flask.views.View`
+            * :class:`flask.views.MethodView`
+        endpoint : str
+            The Flask endpoint name for the view, this is required for Flask
+            pluggable views.
+        \*\*kwargs :
+            Arbitrary keyword arguments for ``add_url_rule``
         """
 
         self.url = url
+        self.view = view
+        self.endpoint = endpoint
         self.kwargs = kwargs
 
     def add_to_app(self, app, **kwargs):
         """ Adds the url route to the flask application object.
+
+        .. versionchanged:: 2014.05.19
+
+            Updated ``add_url_rule`` to support endpoint prefixing and support
+            new way of defining Pluggable views
 
         Arguments
         ---------
@@ -141,30 +188,57 @@ class Pluggable(BaseRouter):
         if 'url_prefix' in kwargs:
             self.url = kwargs['url_prefix'] + self.url
 
-        app.add_url_rule(self.url, **self.kwargs)
+        #: If this route was included a endpoint prefix may have been passed
+        #: to the route
+        if 'endpoint' in kwargs:
+            self.endpoint = kwargs['endpoint'] + self.endpoint
+
+        app.add_url_rule(
+            self.url,
+            view_func=self.view.as_view(self.endpoint),
+            **self.kwargs)
 
 
 class Blueprint(BaseRouter, RoutesImporter):
     """ Registers a flask blueprint and registers routes to that blueprint,
-    similar to :py:class:`flask_via.routes.Include`.
+    similar to :py:class:`flask_via.routers.Include`.
+
+    .. versionadded:: 2014.05.06
 
     Example
     -------
+
+    **Auto creates Blueprint instance***
+
     .. sourcecode:: python
 
         from flask.ext.via.routers import default
 
         routes = [
-            default.blueprint('foo', 'flask_via.examples.blueprints.foo')
+            default.Blueprint('foo', 'flask_via.examples.blueprints.foo')
         ]
+
+    **Pass existing Blueprint instance***
+
+    .. sourcecode:: python
+
+        from flask import Blueprint
+        from flask.ext.via.routers import default
+
+        blueprint = Blueprint('foo', __name__)
+
+        routes = [
+            default.Blueprint(blueprint)
+        ]
+
     """
 
     def __init__(
             self,
-            name,
-            module,
+            name_or_instance,
+            module=None,
             routes_module_name='routes',
-            routes_name='routes',
+            routes_name=None,
             static_folder=None,
             static_url_path=None,
             template_folder=None,
@@ -173,21 +247,29 @@ class Blueprint(BaseRouter, RoutesImporter):
             url_defaults=None):
         """ Constructor for blueprint router.
 
+        .. versionchanged:: 2014.05.19
+
+            * Replaced ``name`` with ``name_or_instance`` argument which allows
+              the router to take an already instantiated blueprint instance.
+            * ``module`` argument optional when instance is passed as the
+              first argument
+            * ``routes_name`` keyword argument default value set to ``None``
+
         Arguments
         ---------
-        name : str
-            Blueprint name
-        module : str
-            Python dotted path to the blueprint module, not the routes module
+        name : str, flask.blueprints.Blueprint
+            Blueprint name or a Blueprint class instance
 
         Keyword Arguments
         -----------------
+        module : str
+            Python dotted path to the blueprint module
         routes_module_name : str, optional
             The module ``Flask-Via`` will look for within the blueprint module
             which contains the routes, defaults to ``routes``
         routes_name : str, optional
             Name of the variable holding the routes in the module, defaults to
-            ``routes``
+            ``None``
         static_folder : str, optional
             Path to static files for blueprint, defaults to ``None``
         static_url_path : str, optional
@@ -205,8 +287,14 @@ class Blueprint(BaseRouter, RoutesImporter):
             the values passed in place, defaults to ``None``.
         """
 
-        self.name = name
-        self.module = module
+        if isinstance(name_or_instance, FlaskBlueprint):
+            self.instance = name_or_instance
+            self.endpoint = self.instance.name
+            self.module = self.instance.import_name
+        else:
+            self.endpoint = name_or_instance
+            self.module = module
+
         self.routes_module_name = routes_module_name
         self.routes_name = routes_name
         self.static_folder = static_folder
@@ -229,25 +317,48 @@ class Blueprint(BaseRouter, RoutesImporter):
 
         return '{0}.{1}'.format(self.module, self.routes_module_name)
 
-    def create_blueprint(self, **kwargs):
-        """ Creates a flask blueprint instance.
+    def blueprint(self, **kwargs):
+        """ Returns a Flask Blueprint instance, either one provided or created
+        here.
+
+        .. versionchanged:: 2014.05.19
+
+            * Renamed method from ``create_blueprint`` to ``blueprint``
+            * If ``instance`` attribute exists, use this is as the blueprint
+              else create the blueprint.
+            * Support for endpoint prefixing
+
+        Returns
+        -------
+        flask.blueprints.Blueprint
+            An instantiated Flask Blueprint instance
         """
 
-        #: If this route was included a url preifx may have been passed
-        #: to the route
-        if 'url_prefix' in kwargs:
-            url_prefix = self.url_prefix or ''
-            self.url_prefix = kwargs['url_prefix'] + url_prefix
+        try:
+            blueprint = self.instance
+        except AttributeError:
 
-        blueprint = FlaskBlueprint(
-            self.name,
-            self.module,
-            static_folder=self.static_folder,
-            static_url_path=self.static_url_path,
-            template_folder=self.template_folder,
-            url_prefix=self.url_prefix,
-            subdomain=self.subdomain,
-            url_defaults=self.url_defaults)
+            #: If this route was included a url preifx may have been passed
+            #: to the route
+            if 'url_prefix' in kwargs:
+                url_prefix = self.url_prefix or ''
+                self.url_prefix = kwargs['url_prefix'] + url_prefix
+
+            #: If this route was included a endpoint prefix may have been
+            #: passed to the route
+            if 'endpoint' in kwargs:
+                endpoint = self.endpoint or ''
+                self.endpoint = kwargs['endpoint'] + endpoint
+
+            blueprint = FlaskBlueprint(
+                self.endpoint,
+                self.module,
+                static_folder=self.static_folder,
+                static_url_path=self.static_url_path,
+                template_folder=self.template_folder,
+                url_prefix=self.url_prefix,
+                subdomain=self.subdomain,
+                url_defaults=self.url_defaults)
 
         return blueprint
 
@@ -265,7 +376,11 @@ class Blueprint(BaseRouter, RoutesImporter):
         """
 
         # Register blueproiint
-        blueprint = self.create_blueprint(**kwargs)
+        blueprint = self.blueprint(**kwargs)
+
+        # Routes name can be configured by setting VIA_ROUTES_NAME
+        if not self.routes_name:
+            self.routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
 
         # Get the routes
         routes = self.include(self.routes_module, self.routes_name)

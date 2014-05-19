@@ -17,6 +17,8 @@ class Resource(BaseRouter):
     ``restful_api`` to ``init_app`` with its value being the restful api
     extension instance.
 
+    .. versionadded:: 2014.05.06
+
     Example
     -------
     .. sourcecode:: python

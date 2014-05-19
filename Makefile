@@ -33,7 +33,7 @@ develop:
 	bash -c 'pip install -e .[develop]'
 
 test:
-	python setup.py nosetests
+	python setup.py test
 
 release: clean
 	python setup.py sdist upload -r pypi

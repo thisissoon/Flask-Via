@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-flask_via.examples.blueprints.foo.views
+flask_via.examples.blueprints.baz.views
 =======================================
 
 A blueprint ``Flask-Via`` example Flask application.

@@ -51,8 +51,8 @@ The routes module should define a ``list`` of routes, by default this list
 is called ``routes``::
 
     routes = [
-        Basic('/', home),
-        Basic('/about', about),
+        Functional('/', home),
+        Functional('/about', about),
     ]
 
 You can configure ``Flask-Via`` to look for any variable name of your choosing,
@@ -61,6 +61,22 @@ for example::
 
     via = Via()
     via.init_app(app, routes_name='urls')
+
+You can also make this setting permanent by using the ``VIA_ROUTES_NAME``
+configuration variable::
+
+    app = Flask(__name__)
+    app.config['VIA_ROUTES_MODULE'] = 'yourapp.routes'
+    app.config['VIA_ROUTES_NAME'] = 'urls'
+
+    via = Via()
+    via.init_app(app)
+
+.. note::
+
+    If you set ``VIA_ROUTES_NAME`` overriding this using ``routes_name`` is
+    still possible however this does not propagate over any routes which are
+    included.
 
 Application Example
 -------------------
@@ -86,8 +102,8 @@ Within ``routes.py`` we have::
     from flask.ext.via.routers import default
 
     urls = [
-        default.Basic('/', home),
-        default.Basic('/about', about),
+        default.Functional('/', home),
+        default.Functional('/about', about),
     ]
 
 Within ``app.py`` we have::

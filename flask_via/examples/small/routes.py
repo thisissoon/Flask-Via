@@ -11,9 +11,9 @@ from flask_via.examples.small import views
 from flask.ext.via.routers import default, Include
 
 routes = [
-    default.Basic('/', views.home),
-    default.Basic('/about', views.about),
-    default.Basic('/contact', views.contact),
+    default.Functional('/', views.home),
+    default.Functional('/about', views.about),
+    default.Functional('/contact', views.contact),
     # Include other routes from other modules
     Include('flask_via.examples.small.foo.routes', url_prefix='/foo')
 ]
