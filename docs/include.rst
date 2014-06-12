@@ -238,9 +238,9 @@ blueprint examples, except our top level ``routes.py`` now looks like this::
 
     api = [
         default.Blueprint('bar', 'foo.bar', url_prefix='/bar')
-        # These don't exist but just for illustraion purposes
-        default.Blueprint('baz', 'foo.baz', url_prefix'/baz')
-        default.Blueprint('fap', 'foo.fap', url_prefix'/fap')
+        # These don't exist but are just for illustration purposes
+        default.Blueprint('baz', 'foo.baz', url_prefix='/baz')
+        default.Blueprint('fap', 'foo.fap', url_prefix='/fap')
     ]
 
 Here we will include all the routes defined in the ``api`` list which are all
@@ -264,7 +264,7 @@ coupled with :py:class:`flask_via.routers.default.Blueprint` can offer some
 potentially powerful routing options for your application.
 
 You will also notice we used the ``endpoint`` keyword agument in the Include.
-This means our urls can also be reversed using ``url_for``, for example::
+This means our urls can also be reversed using ``url_for``, for example:
 
 * ``url_for('api.v1.bar.bar')`` would return: ``/api/v1/bar/bar``
 * ``url_for('api.v1.baz.bar')`` would return: ``/api/v1/baz/bar``
