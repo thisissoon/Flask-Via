@@ -81,6 +81,8 @@ DEVELOP_REQUIREMENTS = read_requirements('REQS.DEVELOP.txt') \
 # Include the Change Log on PyPi
 
 long_description = open('README.rst').read()
+changelog = open('CHANGELOG.rst').read()
+long_description += '\n' + changelog
 
 # Setup
 
@@ -89,9 +91,11 @@ setup(
     version=open('VERSION').read().strip(),
     author='SOON_',
     author_email='dorks@thisissoon.com',
-    url='http://flask-via.thisissoon.com',
-    description='Flask-Via adds a cleaner method for defining routes '
-                'to your Flask views, inspired by Django urls.',
+    maintainer='Chris Reeves',
+    maintainer_email='hello@chris.reeves.io',
+    url='http://flask-via.soon.build',
+    description='Provides a clean, simple URL routing framework for '
+                'growing Flask Applications.',
     long_description=long_description,
     packages=find_packages(
         exclude=[
@@ -114,6 +118,7 @@ setup(
     # Classifiers for Package Indexing
     # Entry points, for example Flask-Script
     entry_points={},
+    # Meta
     classifiers=[
         'Framework :: Flask',
         'Environment :: Web Environment',
@@ -122,9 +127,13 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content'])
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content'],
+    license='MIT',
+    keywords=['Flask', 'Routing', 'Routes', 'URLs', 'Views'])
