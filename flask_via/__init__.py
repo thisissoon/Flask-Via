@@ -143,5 +143,7 @@ class Via(RoutesImporter):
         # Get the routes
         routes = self.include(routes_module, routes_name)
 
+        print routes
+
         # Load the routes
         self.load(app, routes, **kwargs)
