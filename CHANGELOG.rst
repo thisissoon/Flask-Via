@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+2014.05.19.1
+------------
+* Hotfix: Fixed issue where routes would be reregistered with an app
+  incorrectly in the event of multiple app creations
+
 2014.05.19
 ----------
 * Feature: ``Include`` now supports ``endpoint`` prefixing

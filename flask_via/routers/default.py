@@ -88,19 +88,26 @@ class Functional(BaseRouter):
             Arbitrary keyword arguments passed in to ``init_app``
         """
 
+        url = self.url
+        endpoint = self.endpoint
+
         #: If this route was included a url preifx may have been passed
         #: to the route
         if 'url_prefix' in kwargs:
-            self.url = kwargs['url_prefix'] + self.url
+            url = kwargs['url_prefix'] + url
 
         #: If this route was included a endpoint prefix may have been passed
         #: to the route
         if 'endpoint' in kwargs:
-            if self.endpoint is None:
-                self.endpoint = self.func.__name__
-            self.endpoint = kwargs['endpoint'] + self.endpoint
+            if endpoint is None:
+                endpoint = self.func.__name__
+            endpoint = kwargs['endpoint'] + endpoint
 
-        app.add_url_rule(self.url, self.endpoint, self.func)
+        try:
+            app.add_url_rule(url, endpoint, self.func)
+        except AssertionError:
+            # TODO: Log / Warn
+            pass
 
 
 class Basic(Functional):
@@ -183,20 +190,27 @@ class Pluggable(BaseRouter):
             Arbitrary keyword arguments passed in to ``init_app``
         """
 
+        url = self.url
+        endpoint = self.endpoint
+
         #: If this route was included a url preifx may have been passed
         #: to the route
         if 'url_prefix' in kwargs:
-            self.url = kwargs['url_prefix'] + self.url
+            url = kwargs['url_prefix'] + url
 
         #: If this route was included a endpoint prefix may have been passed
         #: to the route
         if 'endpoint' in kwargs:
-            self.endpoint = kwargs['endpoint'] + self.endpoint
+            endpoint = kwargs['endpoint'] + endpoint
 
-        app.add_url_rule(
-            self.url,
-            view_func=self.view.as_view(self.endpoint),
-            **self.kwargs)
+        try:
+            app.add_url_rule(
+                url,
+                view_func=self.view.as_view(endpoint),
+                **self.kwargs)
+        except AssertionError:
+            # TODO: Log / Warn
+            pass
 
 
 class Blueprint(BaseRouter, RoutesImporter):
