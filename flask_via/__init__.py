@@ -58,13 +58,13 @@ class RoutesImporter(object):
 
 
 class Via(RoutesImporter):
-    """ The core class which kicks off the whole registration processes.
+    """ Flask-VIa integration into Flask applications. Flask-Via can
+    be integrated in two different ways depending on how you have setup your
+    Flask application.
 
     .. versionadded:: 2014.05.06
 
-    Example
-    -------
-    .. sourcecode:: python
+    You can bind to a specific flask application::
 
         from flask import Flask
         from flask.ext.via import Via
@@ -80,12 +80,53 @@ class Via(RoutesImporter):
             Basic('/foo/<bar>', foo, endpoint='foo2'),
         ]
 
+        via = Via(app, routes_module='path.to.here')
+
+        if __name__ == "__main__":
+            app.run(debug=True)
+
+    Or if you use an application factory you can use
+    :meth:`flask_via.Via.init_app`::
+
+        from flask import Flask
+        from flask.ext.via import Via
+        from flask.ext.via.routers.flask import Basic
+
         via = Via()
-        via.init_app(app, routes_module='path.to.here')
+
+        def foo(bar=None):
+            return 'Foo View!'
+
+        routes = [
+            Basic('/foo', foo),
+            Basic('/foo/<bar>', foo, endpoint='foo2'),
+        ]
+
+        def create_app():
+            app = Flask(__name__)
+            via.init_app(app)
+            return app
+
+        app = create_app()
 
         if __name__ == "__main__":
             app.run(debug=True)
     """
+
+    def __init__(self, app=None, *args, **kwargs):
+        """ Constructor. Basically acts as a proxy to
+        :meth:`flask_store.Store.init_app`.
+
+        .. versionadded:: __VERSION__
+
+        Key Arguments
+        -------------
+        app : flask.app.Flask, optional
+            Optional Flask application instance, default None
+        """
+
+        if app:
+            self.init_app(app, *args, **kwargs)
 
     def init_app(
             self,
@@ -104,6 +145,10 @@ class Via(RoutesImporter):
               app configuration variable. If ``routes_name`` keyword argument
               and ``VIA_ROUTES_NAME`` are not configured the default will be
               routes.
+
+        .. versionchanged:: __VERSION__
+
+            * Improved ``init_app`` method
 
         Arguments
         ---------
@@ -128,17 +173,16 @@ class Via(RoutesImporter):
             and ``route_module`` keyword argument has not been provided.
         """
 
-        if not routes_module:
-            routes_module = app.config.get('VIA_ROUTES_MODULE')
+        app.config.setdefault('VIA_ROUTES_MODULE', routes_module)
+        app.config.setdefault('VIA_ROUTES_NAME', routes_name or 'routes')
 
-        if not routes_module:
+        if not app.config['VIA_ROUTES_MODULE']:
             raise ImproperlyConfigured(
                 'VIA_ROUTES_MODULE is not defined in application '
                 'configuration.')
 
-        # Routes name can be configured by setting VIA_ROUTES_NAME
-        if not routes_name:
-            routes_name = app.config.get('VIA_ROUTES_NAME', 'routes')
+        routes_module = app.config['VIA_ROUTES_MODULE']
+        routes_name = app.config['VIA_ROUTES_NAME']
 
         # Get the routes
         routes = self.include(routes_module, routes_name)

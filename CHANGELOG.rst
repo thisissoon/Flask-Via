@@ -4,6 +4,7 @@ Change Log
 Unreleased
 ----------
 * Improved: @joonathan added ``kwargs`` passing to the ``Blueprint`` Router
+* Improved: ``init_app`` and added ``__init__``
 
 2014.05.19.1
 ------------
