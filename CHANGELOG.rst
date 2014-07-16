@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Unreleased
+----------
+* Improved: @joonathan added ``kwargs`` passing to the ``Blueprint`` Router
+
 2014.05.19.1
 ------------
 * Hotfix: Fixed issue where routes would be reregistered with an app

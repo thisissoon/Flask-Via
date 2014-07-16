@@ -8,3 +8,4 @@ possible, we salute you.
 * Chris Reeves: @krak3n
 * Greg Reed: @peeklondon
 * Jack Saunders: @jackqu7
+* Joonathan Mägi: @joonathan
