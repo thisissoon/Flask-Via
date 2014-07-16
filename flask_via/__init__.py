@@ -117,7 +117,7 @@ class Via(RoutesImporter):
         """ Constructor. Functionalally acts as a proxy to
         :meth:`flask_store.Store.init_app`.
 
-        .. versionadded:: __VERSION__
+        .. versionadded:: 2014.05.19.2
 
         Key Arguments
         -------------
@@ -146,7 +146,7 @@ class Via(RoutesImporter):
               and ``VIA_ROUTES_NAME`` are not configured the default will be
               routes.
 
-        .. versionchanged:: __VERSION__
+        .. versionchanged:: 2014.05.19.2
 
             * Improved ``init_app`` method
 
