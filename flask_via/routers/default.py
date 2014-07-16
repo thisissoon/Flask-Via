@@ -400,7 +400,7 @@ class Blueprint(BaseRouter, RoutesImporter):
         routes = self.include(self.routes_module, self.routes_name)
 
         # Load the routes
-        self.load(blueprint, routes)
+        self.load(blueprint, routes, **kwargs)
 
         # Register the blueprint with the application
         app.register_blueprint(blueprint)
