@@ -68,7 +68,7 @@ class Via(RoutesImporter):
 
         from flask import Flask
         from flask.ext.via import Via
-        from flask.ext.via.routers.flask import Basic
+        from flask.ext.via.routers.flask import Functional
 
         app = Flask(__name__)
 
@@ -76,8 +76,8 @@ class Via(RoutesImporter):
             return 'Foo View!'
 
         routes = [
-            Basic('/foo', foo),
-            Basic('/foo/<bar>', foo, endpoint='foo2'),
+            Functional('/foo', foo),
+            Functional('/foo/<bar>', foo, endpoint='foo2'),
         ]
 
         via = Via(app, routes_module='path.to.here')
@@ -90,7 +90,7 @@ class Via(RoutesImporter):
 
         from flask import Flask
         from flask.ext.via import Via
-        from flask.ext.via.routers.flask import Basic
+        from flask.ext.via.routers.flask import Functional
 
         via = Via()
 
@@ -98,8 +98,8 @@ class Via(RoutesImporter):
             return 'Foo View!'
 
         routes = [
-            Basic('/foo', foo),
-            Basic('/foo/<bar>', foo, endpoint='foo2'),
+            Functional('/foo', foo),
+            Functional('/foo/<bar>', foo, endpoint='foo2'),
         ]
 
         def create_app():
@@ -114,7 +114,7 @@ class Via(RoutesImporter):
     """
 
     def __init__(self, app=None, *args, **kwargs):
-        """ Constructor. Basically acts as a proxy to
+        """ Constructor. Functionalally acts as a proxy to
         :meth:`flask_store.Store.init_app`.
 
         .. versionadded:: __VERSION__

@@ -5,6 +5,7 @@ Unreleased
 ----------
 * Improved: @joonathan added ``kwargs`` passing to the ``Blueprint`` Router
 * Improved: ``init_app`` and added ``__init__``
+* Added: Deprecation warning to ``Basic`` router
 
 2014.05.19.1
 ------------

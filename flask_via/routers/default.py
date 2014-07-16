@@ -21,6 +21,8 @@ Example
 
 """
 
+import warnings
+
 from flask import Blueprint as FlaskBlueprint
 from flask_via import RoutesImporter
 from flask_via.routers import BaseRouter
@@ -117,6 +119,19 @@ class Basic(Functional):
     .. versionadded:: 2014.05.06
     .. deprecated:: 2014.05.19
     """
+
+    def __init__(self, *args, **kwargs):
+        """ Issues ``DeprecationWarning`` as this is deprecated and will be
+        removed in a later version.
+        """
+
+        warnings.simplefilter('always', DeprecationWarning)
+        warnings.warn(
+            'Basic router will be removed in a future version, please switch '
+            'to the Functional router.',
+            DeprecationWarning)
+
+        super(Basic, self).__init__(*args, **kwargs)
 
 
 class Pluggable(BaseRouter):
