@@ -5,8 +5,7 @@ Inspired by the Django URL configuration system, ``Flask-Via`` is designed to
 add similar functionality to Flask applications which have grown beyond a
 simple single file application.
 
-|travis_master| |coveralls_master| |health| |PyPi_version| |PyPi_downloads|
-|license|
+|travis| |coveralls| |downloads| |version| |license|
 
 Example
 -------
@@ -60,25 +59,25 @@ Links
 * CI: https://travis-ci.org/thisissoon/Flask-Via
 * Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
-.. |PyPi_version| image:: https://pypip.in/version/Flask-Via/badge.svg
-    :target: https://pypi.python.org/pypi/Flask-Via
-    :alt: Latest PyPI version
+.. |travis| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
+    :target: https://travis-ci.org/thisissoon/Flask-Via
+    :alt: Travis build status on Master Branch
 
-.. |PyPi_downloads| image:: https://pypip.in/download/Flask-Via/badge.svg?period=month
+.. |coveralls| image:: http://img.shields.io/coveralls/thisissoon/Flask-Via/master.svg
+    :target: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
+    :alt: Test Coverage
+
+.. |downloads| image:: http://img.shields.io/pypi/dm/Flask-Via.svg
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
+
+.. |version| image:: http://img.shields.io/pypi/v/Flask-Via.svg
+    :target: https://pypi.python.org/pypi/Flask-Via
+    :alt: Latest PyPI version
 
 .. |license| image:: https://pypip.in/license/Flask-Via/badge.svg
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: MIT License
-
-.. |coveralls_master| image:: https://coveralls.io/repos/thisissoon/Flask-Via/badge.png?branch=master
-    :target: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
-    :alt: Test Coverage
-
-.. |travis_master| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
-    :target: https://travis-ci.org/thisissoon/Flask-Via
-    :alt: Travis build status on Master Branch
 
 .. |health| image:: https://landscape.io/github/thisissoon/Flask-Via/master/landscape.png
    :target: https://landscape.io/github/thisissoon/Flask-Via/master
