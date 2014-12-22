@@ -2,7 +2,7 @@
 # Test Requirements
 #
 
-pytest==2.5.2
+pytest==2.6.4
 pytest-cov==1.6
 pytest_spec==0.2.22
 
