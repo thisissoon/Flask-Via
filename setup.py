@@ -54,9 +54,10 @@ def read_requirements(filename):
     requirements = []
     with open(filename) as f:
         for line in f.readlines():
+            line = line.strip()
             if not line or line.startswith('#'):
                 continue
-            requirements.append(line.strip())
+            requirements.append(line)
     return requirements
 
 # Get current working directory
