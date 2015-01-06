@@ -59,23 +59,23 @@ Links
 * CI: https://travis-ci.org/thisissoon/Flask-Via
 * Coverage: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
 
-.. |travis| image:: https://travis-ci.org/thisissoon/Flask-Via.svg?branch=master
+.. |travis| image:: http://img.shields.io/travis/thisissoon/Flask-Via/master.svg?style=flat
     :target: https://travis-ci.org/thisissoon/Flask-Via
     :alt: Travis build status on Master Branch
 
-.. |coveralls| image:: http://img.shields.io/coveralls/thisissoon/Flask-Via/master.svg
+.. |coveralls| image:: http://img.shields.io/coveralls/thisissoon/Flask-Via/master.svg?style=flat
     :target: https://coveralls.io/r/thisissoon/Flask-Via?branch=master
     :alt: Test Coverage
 
-.. |downloads| image:: http://img.shields.io/pypi/dm/Flask-Via.svg
+.. |downloads| image:: http://img.shields.io/pypi/dm/Flask-Via.svg?style=flat
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Number of PyPI downloads
 
-.. |version| image:: http://img.shields.io/pypi/v/Flask-Via.svg
+.. |version| image:: http://img.shields.io/pypi/v/Flask-Via.svg?style=flat
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: Latest PyPI version
 
-.. |license| image:: https://pypip.in/license/Flask-Via/badge.svg
+.. |license| image:: http://img.shields.io/pypi/l/Flask-Via.svg?style=flat
     :target: https://pypi.python.org/pypi/Flask-Via
     :alt: MIT License
 
