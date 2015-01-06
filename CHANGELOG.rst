@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+2015.1.1
+--------
+* Fix: Setup to allow bdist_wheel installs
+
 2014.05.19.2
 ------------
 * Improved: @joonathan added ``kwargs`` passing to the ``Blueprint`` Router
