@@ -9,3 +9,4 @@ possible, we salute you.
 * Greg Reed: @peeklondon
 * Jack Saunders: @jackqu7
 * Joonathan Mägi: @joonathan
+* Magnus Hiie: @magnushiie
